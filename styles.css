@@ -1,0 +1,116 @@
+:root {
+  --bg-color: #f2f4f8;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  color: #333;
+  background: linear-gradient(#f6f6f7, #eb9d9d);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+.titulo {
+  text-align: center;
+  color: rgb(255, 255, 255); 
+  -webkit-text-stroke: 0.5px rgb(0, 0, 0); 
+}
+
+.card {
+  background-color: rgb(182, 235, 217);
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  width: auto;
+  padding: 20px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid #eee;
+  margin-bottom: auto;
+}
+
+.container {
+  padding: 32px 32px; 
+}
+
+.productos-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+::-webkit-scrollbar {
+  display: none; 
+}
+
+.grid { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+  gap: 20px; 
+}
+
+.precio { 
+  color: green; 
+  font-weight: bold; 
+}
+
+.autor { 
+  font-style: italic; 
+  color: #555; 
+}
+
+.button {
+  color: coral;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+#left {
+  float: left;
+  margin-top: 17px;
+  margin-left: 17px;    
+}
+
+#Añadir {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    width: 60px;  
+    height: 60px;
+    font-size: 30px;    
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: #007bff; 
+    color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
+}
+
+#Añadir:hover {
+  transition: all;
+    color: #333; 
+}
+
+#product-search {
+  align-self: center;
+}
+
+#search {
+  align-self: center;
+}
+
+.borrar {
+    bottom: 30px;
+    width: 40px;  
+    height: 40px;
+    font-size: 30px;    
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    border: none;
+    background-color: #d41616; 
+    color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
+}
