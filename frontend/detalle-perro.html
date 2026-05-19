@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ficha del perro — PawFamily</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .detalle {
+      max-width: 960px;
+      margin: 60px auto;
+      padding: 0 var(--pad-x);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .detalle__img {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      border-radius: var(--radius-lg);
+    }
+    .detalle__info { display: flex; flex-direction: column; gap: 20px; }
+    .detalle__nombre { font-family: var(--font-serif); font-size: clamp(48px,6vw,72px); font-weight: 400; line-height: 1; letter-spacing: -0.02em; color: var(--navy); margin: 0; }
+    .detalle__facts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 20px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .detalle__facts div { display: flex; flex-direction: column; gap: 2px; }
+    .detalle__facts dt { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); font-weight: 600; }
+    .detalle__facts dd { margin: 0; font-size: 16px; font-weight: 500; color: var(--navy); }
+    .detalle__historia { font-size: 16px; line-height: 1.65; color: var(--navy); }
+    .detalle__back { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--muted); margin-bottom: 32px; }
+    .detalle__back:hover { color: var(--coral); }
+    @media (max-width: 700px) {
+      .detalle { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="index.html" class="brand">
+      <span class="brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="11" cy="13" rx="3.4" ry="4.4"/>
+          <ellipse cx="20" cy="9"  rx="3.4" ry="4.6"/>
+          <ellipse cx="29" cy="13" rx="3.4" ry="4.4"/>
+          <ellipse cx="33" cy="22" rx="3"   ry="3.6"/>
+          <path d="M20 18c-5.5 0-9 4.2-9 8.5 0 3.7 2.8 6 6.4 6 1.5 0 2-.5 2.6-.5s1.1.5 2.6.5c3.6 0 6.4-2.3 6.4-6 0-4.3-3.5-8.5-9-8.5z"/>
+        </svg>
+      </span>
+      <span class="brand__word">PawFamily</span>
+    </a>
+    <nav class="nav">
+      <a href="index.html">Inicio</a>
+      <a href="index.html#perros">Perros</a>
+      <a href="reserva.html">Reservar visita</a>
+      <a href="login.html" class="nav__login">Login</a>
+    </nav>
+  </header>
+
+  <main style="padding-top: 40px;">
+    <div style="max-width:960px; margin:0 auto; padding:0 var(--pad-x);">
+      <a href="index.html" class="detalle__back">
+        ← Volver a todos los perros
+      </a>
+    </div>
+
+    <div class="detalle" id="detalleContainer">
+      <p style="color:var(--muted)">Cargando...</p>
+    </div>
+  </main>
+
+  <script src="js/app.js"></script>
+  <script>
+    // Leer el id de la URL: detalle-perro.html?id=3
+    const params = new URLSearchParams(window.location.search);
+    const id = Number(params.get('id'));
+    const perro = PERROS.find(p => p.id === id);
+
+    const container = document.getElementById('detalleContainer');
+
+    if (!perro) {
+      container.innerHTML = '<p style="color:var(--muted)">Perro no encontrado. <a href="index.html">Volver al inicio</a></p>';
+    } else {
+      document.title = `${perro.nombre} — PawFamily`;
+      const adoptado = perro.estado === 'adoptado';
+      container.innerHTML = `
+        <img class="detalle__img" src="${perro.imagen || ''}" alt="Foto de ${perro.nombre}" />
+        <div class="detalle__info">
+          <span class="dog-card__badge badge--${perro.estado}" style="position:static;align-self:flex-start">
+            <span class="dot"></span>${ESTADO_LABELS[perro.estado]}
+          </span>
+          <h1 class="detalle__nombre">${perro.nombre}</h1>
+          <dl class="detalle__facts">
+            <div><dt>Raza</dt><dd>${perro.raza}</dd></div>
+            <div><dt>Edad</dt><dd>${perro.edad}</dd></div>
+            <div><dt>Sexo</dt><dd>${perro.sexo || '—'}</dd></div>
+            <div><dt>Tamaño</dt><dd>${perro.tamano || '—'}</dd></div>
+          </dl>
+          <p class="detalle__historia">${perro.historia || 'Próximamente más información sobre ' + perro.nombre + '.'}</p>
+          ${adoptado
+            ? `<button class="btn btn--ghost" disabled style="cursor:default">Ya tiene familia ♥</button>`
+            : `<a href="reserva.html?perro=${perro.id}" class="btn btn--primary">Reservar visita con ${perro.nombre}</a>`
+          }
+        </div>`;
+    }
+  </script>
+</body>
+</html>
