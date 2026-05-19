@@ -6,7 +6,7 @@ def get_connection():
             host="localhost",
             user="root",
             password="",
-            database="ecommerce_test",
+            database="paw_family",
 
             cursorclass=pymysql.cursors.DictCursor 
         )
