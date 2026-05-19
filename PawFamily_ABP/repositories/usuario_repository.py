@@ -1,0 +1,1 @@
+# Las consultas SQL (SELECT *, INSERT INTO...)
