@@ -1,10 +1,12 @@
 from flask import Flask, render_template
-from PawFamily_ABP.bakend.routes.usuario_routes import usuario_bp
+from routes.usuario_routes import usuario_bp
+from routes.perro_routes import perro_bp  
 
 app = Flask(__name__)
 
-# Registramos el Blueprint de usuarios
+# Registramos todos los Blueprints
 app.register_blueprint(usuario_bp)
+app.register_blueprint(perro_bp)  
 
 @app.route("/")
 def home():
