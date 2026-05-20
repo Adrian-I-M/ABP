@@ -16,10 +16,22 @@
       <img src="img/logo.png" alt="PawFamily logo" class="brand__logo" />
       <span class="brand__word">PawFamily</span>
     </a>
-    <nav class="nav" aria-label="Navegación principal">
+        <nav class="nav" aria-label="Navegación principal">
       <a href="index.html">Inicio</a>
       <a href="index.html#perros">Perros</a>
       <a href="reserva.html">Reservar visita</a>
+      <div class="nav__dropdown">
+        <button class="nav__dropdown-btn">
+          Protectora
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="nav__dropdown-menu">
+          <div class="nav__dropdown-menu-inner">
+            <a href="quienesSomos.html">Quiénes somos</a>
+            <a href="voluntariado.html">Voluntariado</a>
+          </div>
+        </div>
+      </div>
       <a href="login.html" class="nav__login">Login</a>
     </nav>
     <button class="nav__burger" aria-label="Abrir menú" aria-expanded="false" id="burger">
