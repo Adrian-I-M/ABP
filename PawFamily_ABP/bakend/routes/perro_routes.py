@@ -37,3 +37,13 @@ def create_perro():
         return jsonify({"error": str(val_error)}), 400
     except Exception as error:
         return jsonify({"ok": False, "error": str(error)}), 500
+
+@perro_bp.route("/perros/<int:perro_id>", methods=["DELETE"])
+def delete_perro(perro_id):
+    try:
+        success = PerroService.delete_perro(perro_id)
+        if not success:
+            return jsonify({"error": "Perro no encontrado"}), 404
+        return jsonify({"mensaje": "Perro eliminado"}), 200
+    except Exception as error:
+        return jsonify({"ok": False, "error": str(error)}), 500

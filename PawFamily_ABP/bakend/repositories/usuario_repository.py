@@ -5,6 +5,8 @@ class UsuarioRepository:
     @staticmethod
     def get_all():
         connection = get_connection()
+        if not connection:  
+            return []
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM usuario ORDER BY id")
         usuarios = cursor.fetchall()
@@ -15,6 +17,8 @@ class UsuarioRepository:
     @staticmethod
     def get_by_id(user_id):
         connection = get_connection()
+        if not connection:  
+            return None
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM usuario WHERE id = %s", (user_id,))
         usuario = cursor.fetchone()
@@ -25,6 +29,8 @@ class UsuarioRepository:
     @staticmethod
     def create(nombre, email):
         connection = get_connection()
+        if not connection:  
+            return None
         cursor = connection.cursor()
         cursor.execute(
             "INSERT INTO usuario (nombre, email) VALUES (%s, %s)",

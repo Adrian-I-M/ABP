@@ -3,6 +3,7 @@ from routes.usuario_routes import usuario_bp
 from routes.perro_routes import perro_bp  
 
 app = Flask(__name__)
+app.json.ensure_ascii = False  #Para que el JSON muestre caracteres especiales directamente (á, ñ, ç)
 
 # Registramos todos los Blueprints
 app.register_blueprint(usuario_bp)
