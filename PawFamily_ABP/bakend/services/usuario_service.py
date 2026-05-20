@@ -1,4 +1,4 @@
-from PawFamily_ABP.bakend.repositories.usuario_repository import UsuarioRepository
+from repositories.usuario_repository import UsuarioRepository
 
 class UsuarioService:
 

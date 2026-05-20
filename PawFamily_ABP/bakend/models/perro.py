@@ -6,8 +6,6 @@ class Perro:
         self.edad = edad
         self.id_usuario = id_usuario  # Esto relaciona al perro con su dueño
 
-    # Esto os vendrá de lujo para convertir el objeto a un diccionario 
-    # y poder enviarlo como JSON en las rutas
     def to_dict(self):
         return {
             "id": self.id,

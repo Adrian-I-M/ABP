@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from PawFamily_ABP.bakend.services.usuario_service import UsuarioService
+from services.usuario_service import UsuarioService
 
 # Usamos Blueprint para poder separar las rutas en archivos individuales
 usuario_bp = Blueprint('usuario_bp', __name__)
