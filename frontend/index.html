@@ -4,26 +4,18 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>PawFamily — Adopta. Cambia una vida.</title>
-  <meta name="description" content="PawFamily es una protectora que conecta perros rescatados con familias que les van a querer para siempre." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" type="image/png" href="img/logo.png">
 </head>
 <body>
- 
+
   <!-- HEADER -->
   <header class="site-header" id="siteHeader">
     <a href="index.html" class="brand" aria-label="PawFamily — Inicio">
-      <span class="brand__mark" aria-hidden="true">
-        <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="11" cy="13" rx="3.4" ry="4.4"/>
-          <ellipse cx="20" cy="9"  rx="3.4" ry="4.6"/>
-          <ellipse cx="29" cy="13" rx="3.4" ry="4.4"/>
-          <ellipse cx="33" cy="22" rx="3"   ry="3.6"/>
-          <path d="M20 18c-5.5 0-9 4.2-9 8.5 0 3.7 2.8 6 6.4 6 1.5 0 2-.5 2.6-.5s1.1.5 2.6.5c3.6 0 6.4-2.3 6.4-6 0-4.3-3.5-8.5-9-8.5z"/>
-        </svg>
-      </span>
+      <img src="img/logo.png" alt="PawFamily logo" class="brand__logo" />
       <span class="brand__word">PawFamily</span>
     </a>
     <nav class="nav" aria-label="Navegación principal">
@@ -36,43 +28,53 @@
       <span></span><span></span><span></span>
     </button>
   </header>
- 
+
   <!-- HERO -->
   <section class="hero" id="inicio">
     <div class="hero__bg" aria-hidden="true"></div>
     <div class="hero__inner">
-      <div class="hero__eyebrow">
-        <span class="dot"></span> Protectora ·  &amp; alrededores
+
+      <!-- Texto izquierda -->
+      <div class="hero__content">
+        <div class="hero__eyebrow">
+          <span class="dot"></span> Protectora · Madrid &amp; alrededores
+        </div>
+        <h1 class="hero__title">
+          Cada perro de aquí <br />
+          está esperando <em>una sola cosa:</em><br />
+          <span class="hero__title-accent">su familia.</span>
+        </h1>
+        <p class="hero__lede">
+          Somos PawFamily. Rescatamos, cuidamos y emparejamos perros con personas que les van a querer
+          de verdad. Sin prisa, sin papeleo absurdo, y con seguimiento después.
+        </p>
+        <div class="hero__cta">
+          <a href="#perros" class="btn btn--primary">Conocer a los perros</a>
+          <a href="reserva.html" class="btn btn--ghost">
+            Reservar una visita
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <dl class="hero__stats">
+          <div><dt>247</dt><dd>perros con familia</dd></div>
+          <div><dt>18</dt><dd>esperando hogar</dd></div>
+          <div><dt>9 años</dt><dd>rescatando juntos</dd></div>
+        </dl>
       </div>
-      <h1 class="hero__title">
-        Cada perro de aquí <br />
-        está esperando <em>una sola cosa:</em><br />
-        <span class="hero__title-accent">su familia.</span>
-      </h1>
-      <p class="hero__lede">
-        Somos PawFamily. Rescatamos, cuidamos y emparejamos perros con personas que les van a querer
-        de verdad. Sin prisa, sin papeleo absurdo, y con seguimiento después.
-      </p>
-      <div class="hero__cta">
-        <a href="#perros" class="btn btn--primary">Conocer a los perros</a>
-        <a href="reserva.html" class="btn btn--ghost">
-          Reservar una visita
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
+
+      <!-- Foto equipo derecha -->
+      <div class="hero__photo">
+        <img src="img/FotoPrueba.webp" alt="Nuestro equipo trabajando" />
       </div>
-      <dl class="hero__stats">
-        <div><dt>247</dt><dd>perros con familia</dd></div>
-        <div><dt>18</dt><dd>esperando hogar</dd></div>
-        <div><dt>9 años</dt><dd>rescatando juntos</dd></div>
-      </dl>
+
     </div>
   </section>
- 
+
   <!-- STRIP -->
   <section class="strip">
     <p>Adoptar no es comprar. Es comprometerse 10, 12, 15 años con alguien que confía en ti desde el primer día.</p>
   </section>
- 
+
   <!-- PERROS -->
   <section class="dogs" id="perros">
     <header class="section-head">
@@ -94,7 +96,7 @@
     <ul class="dog-grid" id="dogGrid" aria-live="polite"></ul>
     <p class="dogs__empty" id="dogsEmpty" hidden>No hay perros que coincidan con este filtro.</p>
   </section>
- 
+
   <!-- RESERVAR -->
   <section class="book" id="reservar">
     <div class="book__card">
@@ -116,20 +118,12 @@
       </aside>
     </div>
   </section>
- 
+
   <!-- FOOTER -->
   <footer class="site-footer">
     <div class="site-footer__top">
       <a href="index.html" class="brand brand--light">
-        <span class="brand__mark" aria-hidden="true">
-          <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-            <ellipse cx="11" cy="13" rx="3.4" ry="4.4"/>
-            <ellipse cx="20" cy="9"  rx="3.4" ry="4.6"/>
-            <ellipse cx="29" cy="13" rx="3.4" ry="4.4"/>
-            <ellipse cx="33" cy="22" rx="3"   ry="3.6"/>
-            <path d="M20 18c-5.5 0-9 4.2-9 8.5 0 3.7 2.8 6 6.4 6 1.5 0 2-.5 2.6-.5s1.1.5 2.6.5c3.6 0 6.4-2.3 6.4-6 0-4.3-3.5-8.5-9-8.5z"/>
-          </svg>
-        </span>
+        <img src="img/logo.png" alt="PawFamily logo" class="brand__logo" />
         <span class="brand__word">PawFamily</span>
       </a>
       <nav class="site-footer__nav" aria-label="Footer">
@@ -155,13 +149,13 @@
       <span>Hecho con cariño y muchos pelos en el teclado.</span>
     </div>
   </footer>
- 
+
   <!-- MODAL DETALLE -->
   <dialog class="dog-modal" id="dogModal" aria-labelledby="modalName">
     <button class="dog-modal__close" id="modalClose" aria-label="Cerrar">×</button>
     <div class="dog-modal__body" id="modalBody"></div>
   </dialog>
- 
-  <script src="js/app.js"></script>
+
+  <script src="js/main.js"></script>
 </body>
 </html>
