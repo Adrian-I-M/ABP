@@ -34,70 +34,45 @@ def db_status():
         
 # SEGMENTO DE CODIGO USUARIOS
 
-@app.route("/usuarios")
-def list_users():
-    try:
-        connection = get_connection()
-        cursor = connection.cursor()
-        cursor.execute("SELECT * FROM usuario ORDER BY id")
-        usuarios = cursor.fetchall()
-        cursor.close()
-        connection.close()
-        return jsonify(usuarios)
-    except Exception as error:
-        return jsonify({
-            "ok": False,
-            "error": str(error)
-        }), 500
-
-@app.route("/usuarios/<int:user_id>")
-def get_user(user_id):
-    try:
-        connection = get_connection()
-        cursor = connection.cursor()
-        cursor.execute(
-            "SELECT * FROM usuario WHERE id = %s",
-            (user_id,)
-        )
-        usuario = cursor.fetchone()
-        cursor.close()
-        connection.close()
-        if usuario is None:
-            return jsonify({
-                "error": "Usuario no encontrado"
-            }), 404
-        return jsonify(usuario)
-    except Exception as error:
-        return jsonify({
-            "ok": False,
-            "error": str(error)
-        }), 500
-
 @app.route("/usuarios", methods=["POST"])
 def create_user():
-    nombre = request.form.get("nombre")
-    email = request.form.get("email")
+    # Recogemos y limpiamos espacios fantasmas
+    nombre = request.form.get("nombre", "").strip()
+    email = request.form.get("email", "").strip()
+    
+    #  Validación sintáctica básica
     if not nombre or not email:
-        return jsonify({
-            "error": "Faltan nombre o email"
-        }), 400
+        return jsonify({"error": "Faltan el nombre o el email"}), 400
+        
     try:
         connection = get_connection()
         cursor = connection.cursor()
+        
+        #  Comprobar si el email ya existe
+        cursor.execute("SELECT id FROM usuario WHERE email = %s LIMIT 1", (email,))
+        existe_usuario = cursor.fetchone()
+        
+        if existe_usuario:
+            cursor.close()
+            connection.close()
+            return jsonify({"error": "Este correo electrónico ya está registrado"}), 422
+
+        # Si no existe, procedemos al registro
         cursor.execute(
             "INSERT INTO usuario (nombre, email) VALUES (%s, %s)",
             (nombre, email)
         )
         connection.commit()
         new_id = cursor.lastrowid
+        
         cursor.close()
         connection.close()
         return redirect(url_for("get_user", user_id=new_id))
+        
     except Exception as error:
-        return jsonify({
-            "ok": False,
-            "error": str(error)
-        }), 500
+        if 'connection' in locals() and connection.open:
+            connection.close()
+        return jsonify({"ok": False, "error": str(error)}), 500
         
 # SEGMENTO DE CODIGO PERROS
 
