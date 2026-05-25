@@ -90,9 +90,12 @@ if (loginForm) {
     }
 
     if (valido) {
-      // Aquí irá la llamada a la API cuando el backend esté listo
-      // fetch('/api/login', { method: 'POST', body: JSON.stringify({...}) })
-      alert('Validación OK — pendiente de conectar con la API');
+      // Credenciales admin simuladas — reemplazar por fetch('/api/login', ...) cuando el backend esté listo
+      if (campoLogin.value.trim() === 'admin' && campoPassword.value === 'admin123') {
+        window.location.href = 'admin.html';
+      } else {
+        window.location.href = 'index.html';
+      }
     }
   });
 }
