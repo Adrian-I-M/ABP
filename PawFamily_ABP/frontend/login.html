@@ -50,9 +50,40 @@
 
   <script src="js/main.js"></script>
   <script>
-    document.getElementById('loginForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('Login pendiente de conectar con la API');
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault(); // Evita que la página se recargue sola
+      
+      // 1. Capturamos lo que el usuario ha escrito en las cajas de texto
+      const loginValue = document.getElementById('login').value;
+      const passwordValue = document.getElementById('password').value;
+
+      try {
+        // 2. Enviamos los datos en secreto a tu servidor Flask
+        const response = await fetch('http://127.0.0.1:5000/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json' // Le decimos a Flask que le enviamos un JSON
+          },
+          body: JSON.stringify({
+            login: loginValue,
+            password: passwordValue
+          })
+        });
+
+        // 3. Recibimos la respuesta de Python
+        const resultado = await response.json();
+
+        if (resultado.ok) {
+          alert(resultado.mensaje + ' Bienvenido, ' + resultado.usuario.nombre);
+          // Aquí en el futuro redirigirías a la página privada del usuario
+        } else {
+          alert('Error de login: ' + resultado.error);
+        }
+
+      } catch (error) {
+        console.error('Error en la comunicación:', error);
+        alert('No se ha podido conectar con el servidor de Flask.');
+      }
     });
   </script>
 </body>

@@ -1,9 +1,9 @@
 from flask import Blueprint, jsonify, request
 from services.usuario_service import UsuarioService
 
-# Usamos Blueprint para poder separar las rutas en archivos individuales
 usuario_bp = Blueprint('usuario_bp', __name__)
 
+# Obtener todos los usuarios
 @usuario_bp.route("/usuarios", methods=["GET"])
 def list_users():
     try:
@@ -12,6 +12,7 @@ def list_users():
     except Exception as error:
         return jsonify({"ok": False, "error": str(error)}), 500
 
+# Obtener un usuario específico por su ID
 @usuario_bp.route("/usuarios/<int:user_id>", methods=["GET"])
 def get_user(user_id):
     try:
@@ -22,10 +23,10 @@ def get_user(user_id):
     except Exception as error:
         return jsonify({"ok": False, "error": str(error)}), 500
 
+# Crear un nuevo usuario
 @usuario_bp.route("/usuarios", methods=["POST"])
 def create_user():
     try:
-        # Nota: Para APIs REST reales, es mejor leer JSON en lugar de formularios web:
         data = request.get_json() 
         nombre = data.get("nombre")
         email = data.get("email")
@@ -34,6 +35,32 @@ def create_user():
         return jsonify({"mensaje": "Usuario creado", "id": new_id}), 201
         
     except ValueError as val_error:
-        return jsonify({"error": str(val_error)}), 400
+        return jsonify({"error": str(val_error)}), 400  
     except Exception as error:
         return jsonify({"ok": False, "error": str(error)}), 500
+
+# Inicio de sesión de usuario
+@usuario_bp.route("/api/login", methods=["POST"])
+def api_login():
+    try:
+        data = request.get_json()
+        login_input = data.get("login", "")
+        password_input = data.get("password", "")
+        
+        print(f"Petición de login Usuario: {login_input}")
+        
+        # El controlador no valida datos, delega la autenticación al servicio
+        usuario_autenticado = UsuarioService.login_user(login_input, password_input)
+        
+        return jsonify({
+            "ok": True, 
+            "mensaje": "¡Login correcto!", 
+            "usuario": usuario_autenticado
+        }), 200
+        
+    except ValueError as error:
+        return jsonify({"ok": False, "error": str(error)}), 400       # 400: Formato de email inválido
+    except PermissionError as error:
+        return jsonify({"ok": False, "error": str(error)}), 401    # 401: Credenciales incorrectas
+    except Exception as error:
+        return jsonify({"ok": False, "error": str(error)}), 500       # 500: Error interno del servidor
