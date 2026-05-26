@@ -10,7 +10,7 @@ class UsuarioRepository:
             
         cursor = connection.cursor()
         # Obtiene todos los usuarios ordenados por ID
-        cursor.execute("SELECT * FROM usuario ORDER BY id")
+        cursor.execute("SELECT * FROM usuarios ORDER BY id")
         usuarios = cursor.fetchall()
         
         cursor.close()
@@ -25,43 +25,42 @@ class UsuarioRepository:
             
         cursor = connection.cursor()
         # Busca un usuario específico por su ID
-        cursor.execute("SELECT * FROM usuario WHERE id = %s", (user_id,))
-        usuario = cursor.fetchone()
+        cursor.execute("SELECT * FROM usuarios WHERE id = %s", (user_id,))
+        usuarios = cursor.fetchone()
         
         cursor.close()
         connection.close()
-        return usuario
+        return usuarios
 
     @staticmethod
-    def create(nombre, email):
+    def create(nombre, correo, contrasena, rol):
         connection = get_connection()
         if not connection:  
             return None
             
         cursor = connection.cursor()
-        # Registra un nuevo usuario en MySQL
         cursor.execute(
-            "INSERT INTO usuario (nombre, email) VALUES (%s, %s)",
-            (nombre, email)
+            "INSERT INTO usuarios (nombre, correo, contrasena, rol) VALUES (%s, %s, %s, %s)",
+            (nombre, correo, contrasena, rol)
         )
-        connection.commit()  # Confirma la inserción en la base de datos
+        connection.commit()  
         new_id = cursor.lastrowid
         
         cursor.close()
         connection.close()
         return new_id
-    
+
     @staticmethod
-    def get_by_email(email):
+    def get_by_email(correo):
         connection = get_connection()
         if not connection:
             return None
             
         cursor = connection.cursor()
-        # Busca un usuario por su email para el proceso de Login
-        cursor.execute("SELECT * FROM usuario WHERE email = %s", (email,))
-        usuario = cursor.fetchone()  # Devuelve el diccionario del usuario o None
+        # CORREGIDO: Busca por la columna 'correo' para el proceso de Login
+        cursor.execute("SELECT * FROM usuarios WHERE correo = %s", (correo,))
+        usuarios = cursor.fetchone()  # Devuelve el diccionario del usuario o None
         
         cursor.close()
         connection.close()
-        return usuario
+        return usuarios

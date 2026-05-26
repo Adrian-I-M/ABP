@@ -23,15 +23,20 @@ def get_user(user_id):
     except Exception as error:
         return jsonify({"ok": False, "error": str(error)}), 500
 
-# Crear un nuevo usuario
+# Crear un nuevo usuario (Registro)
 @usuario_bp.route("/usuarios", methods=["POST"])
 def create_user():
     try:
         data = request.get_json() 
         nombre = data.get("nombre")
-        email = data.get("email")
+        correo = data.get("correo") or data.get("email") 
+        contrasena = data.get("contrasena") or data.get("password")
         
-        new_id = UsuarioService.create_user(nombre, email)
+        # ELIMINADO data.get("rol"). Ahora lo fijamos nosotros a piñón fijo por seguridad:
+        rol = "cliente"   
+        
+        # Le seguimos pasando las 4 cosas al servicio, pero el rol lo controlas tú
+        new_id = UsuarioService.create_user(nombre, correo, contrasena, rol)
         return jsonify({"mensaje": "Usuario creado", "id": new_id}), 201
         
     except ValueError as val_error:
@@ -39,13 +44,13 @@ def create_user():
     except Exception as error:
         return jsonify({"ok": False, "error": str(error)}), 500
 
-# Inicio de sesión de usuario
-@usuario_bp.route("/api/login", methods=["POST"])
+# Inicio de sesión de usuario (Login)
+@usuario_bp.route("/login", methods=["POST"])
 def api_login():
     try:
         data = request.get_json()
-        login_input = data.get("login", "")
-        password_input = data.get("password", "")
+        login_input = data.get("correo", "")        # CORREGIDO: de 'login' a 'correo'
+        password_input = data.get("contrasena", "") # CORREGIDO: de 'password' a 'contrasena'
         
         print(f"Petición de login Usuario: {login_input}")
         
