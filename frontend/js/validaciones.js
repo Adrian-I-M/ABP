@@ -171,6 +171,89 @@ if (reservaForm) {
   });
 }
 
+/* ========== VALIDACIÓN REGISTRO ========== */
+
+const registroForm = document.getElementById('registroForm');
+if (registroForm) {
+  const campoNombre   = document.getElementById('nombre_completo');
+  const campoUsername = document.getElementById('username');
+  const campoEmail    = document.getElementById('email');
+  const campoPassword = document.getElementById('password');
+  const campoConfirm  = document.getElementById('confirm_password');
+
+  const camposRegistro = [campoNombre, campoUsername, campoEmail, campoPassword, campoConfirm];
+
+  function validarCampoRegistro(campo) {
+    if (campo === campoNombre) {
+      if (!campo.value.trim()) {
+        mostrarError(campo, 'El nombre completo no puede estar vacío.');
+      } else {
+        limpiarError(campo);
+      }
+    }
+    if (campo === campoUsername) {
+      if (!campo.value.trim()) {
+        mostrarError(campo, 'El nombre de usuario no puede estar vacío.');
+      } else if (/\s/.test(campo.value)) {
+        mostrarError(campo, 'El nombre de usuario no puede contener espacios.');
+      } else {
+        limpiarError(campo);
+      }
+    }
+    if (campo === campoEmail) {
+      if (!campo.value.trim()) {
+        mostrarError(campo, 'El email no puede estar vacío.');
+      } else if (!esEmailValido(campo.value)) {
+        mostrarError(campo, 'Introduce un email válido (ejemplo@dominio.com).');
+      } else {
+        limpiarError(campo);
+      }
+    }
+    if (campo === campoPassword) {
+      if (!campo.value) {
+        mostrarError(campo, 'La contraseña no puede estar vacía.');
+      } else if (campo.value.length < 8) {
+        mostrarError(campo, 'La contraseña debe tener al menos 8 caracteres.');
+      } else {
+        limpiarError(campo);
+      }
+    }
+    if (campo === campoConfirm) {
+      if (!campo.value) {
+        mostrarError(campo, 'Debes confirmar la contraseña.');
+      } else if (campo.value !== campoPassword.value) {
+        mostrarError(campo, 'Las contraseñas no coinciden.');
+      } else {
+        limpiarError(campo);
+      }
+    }
+  }
+
+  camposRegistro.forEach(campo => {
+    campo.addEventListener('blur', () => validarCampoRegistro(campo));
+    campo.addEventListener('input', () => limpiarError(campo));
+  });
+
+  registroForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    camposRegistro.forEach(campo => validarCampoRegistro(campo));
+
+    const hayErrores = camposRegistro.some(campo => {
+      const err = campo.closest('.form-group').querySelector('.form-error');
+      return err && err.textContent;
+    });
+
+    if (!hayErrores) {
+      const fecha_alta = new Date().toISOString();
+      // fetch('/api/usuarios', { method: 'POST', body: JSON.stringify({ nombre_completo, username, email, password, fecha_alta }) })
+      document.getElementById('registroExito').style.display = 'block';
+      registroForm.querySelectorAll('input, button').forEach(el => el.disabled = true);
+      setTimeout(() => { window.location.href = 'login.html'; }, 2000);
+    }
+  });
+}
+
 /* ========== VALIDACIÓN VOLUNTARIADO ========== */
 
 const voluntarioForm = document.getElementById('voluntarioForm');

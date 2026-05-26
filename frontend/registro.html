@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Registro — PawFamily</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="img/logo.png">
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="index.html" class="brand">
+      <img src="img/logo.png" alt="PawFamily logo" class="brand__logo" />
+      <span class="brand__word">PawFamily</span>
+    </a>
+    <nav class="nav" aria-label="Navegación principal">
+      <a href="index.html">Inicio</a>
+      <a href="index.html#perros">Perros</a>
+      <a href="reserva.html">Reservar visita</a>
+      <div class="nav__dropdown">
+        <button class="nav__dropdown-btn">
+          Protectora
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="nav__dropdown-menu">
+          <div class="nav__dropdown-menu-inner">
+            <a href="quienesSomos.html">Quiénes somos</a>
+            <a href="voluntariado.html">Voluntariado</a>
+          </div>
+        </div>
+      </div>
+      <a href="login.html" class="nav__login">Login</a>
+    </nav>
+    <button class="nav__burger" aria-label="Abrir menú" aria-expanded="false" id="burger">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main class="form-page">
+    <div class="form-card">
+      <h1>Crea tu cuenta.</h1>
+      <p>Únete a PawFamily y encuentra tu compañero ideal.</p>
+      <form id="registroForm" novalidate>
+        <div class="form-group">
+          <label for="nombre_completo">Nombre completo</label>
+          <input type="text" id="nombre_completo" name="nombre_completo" placeholder="Ana García López" required />
+        </div>
+        <div class="form-group">
+          <label for="username">Nombre de usuario</label>
+          <input type="text" id="username" name="username" placeholder="anagarcia" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="tu@email.com" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <input type="password" id="password" name="password" placeholder="Mínimo 8 caracteres" required />
+        </div>
+        <div class="form-group">
+          <label for="confirm_password">Confirmar contraseña</label>
+          <input type="password" id="confirm_password" name="confirm_password" placeholder="Repite la contraseña" required />
+        </div>
+        <div id="registroExito" style="display:none; margin-bottom:16px; padding:12px 16px; background:var(--green-soft); color:oklch(0.32 0.05 150); border-radius:var(--radius-sm); font-size:14px; font-weight:500;">
+          Cuenta creada correctamente. Redirigiendo...
+        </div>
+        <button type="submit" class="btn btn--primary btn--full">Crear cuenta</button>
+      </form>
+      <p class="form-footer">
+        ¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a>
+      </p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__top">
+      <a href="index.html" class="brand brand--light">
+        <img src="img/logo.png" alt="PawFamily logo" class="brand__logo" />
+        <span class="brand__word">PawFamily</span>
+      </a>
+      <nav class="site-footer__nav" aria-label="Footer">
+        <div>
+          <h4>Adopción</h4>
+          <a href="index.html#perros">Perros disponibles</a>
+          <a href="reserva.html">Reservar visita</a>
+        </div>
+        <div>
+          <h4>Protectora</h4>
+          <a href="quienesSomos.html">Quiénes somos</a>
+          <a href="voluntariado.html">Voluntariado</a>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <a href="mailto:hola@pawfamily.es">hola@pawfamily.es</a>
+          <a href="tel:+34910000000">+34 910 00 00 00</a>
+        </div>
+      </nav>
+    </div>
+    <div class="site-footer__bottom">
+      <span>© 2026 PawFamily · Proyecto ABP 1DAM/1DAW</span>
+      <span>Hecho con cariño y muchos pelos en el teclado.</span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/validaciones.js"></script>
+</body>
+</html>
