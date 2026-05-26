@@ -1,4 +1,9 @@
+import os
+import uuid
 from repositories.perro_repository import PerroRepository
+
+# Extensiones de imagen válidas
+EXTENSIONES_PERMITIDAS = {'png', 'jpg', 'jpeg', 'webp'}
 
 class PerroService:
 
@@ -15,7 +20,7 @@ class PerroService:
         return perro
 
     @staticmethod
-    def create_perro(nombre, raza, edad, id_usuario):
+    def create_perro(nombre, raza, edad, id_usuario, archivo_imagen, carpeta_destino):
         # Validación de campos obligatorios
         if not nombre or not raza:
             raise ValueError("El nombre y la raza son obligatorios")
@@ -26,10 +31,36 @@ class PerroService:
             raise ValueError("La edad debe ser un número válido")
 
         # Validación de rango de edad
-        if edad_int < 0:
+        if int(edad) < 0:
             raise ValueError("La edad no puede ser un número negativo")
             
-        return PerroRepository.create(nombre, raza, edad_int, id_usuario)
+        # Control y procesamiento de la Imagen con UUID
+        if not archivo_imagen or archivo_imagen.filename == '':
+            raise ValueError("La foto del perro es obligatoria")
+            
+        # Validar extensión del archivo
+        extension = archivo_imagen.filename.rsplit('.', 1)[1].lower() if '.' in archivo_imagen.filename else ''
+        if extension not in EXTENSIONES_PERMITIDAS:
+            raise ValueError("Formato de imagen no permitido (Usa png, jpg, jpeg o webp)")
+            
+        # Generar nombre único en el universo con UUID v4
+        nombre_unico = f"{uuid.uuid4()}.{extension}"
+        
+        # Ruta física del disco duro donde se guarda el archivo real
+        ruta_fisica = os.path.join(carpeta_destino, nombre_unico)
+        archivo_imagen.save(ruta_fisica)
+        
+        # Ruta relativa web que se guardará en el campo texto de la Base de Datos
+        ruta_imagen_bd = f"/uploads/{nombre_unico}"
+        
+        # Intentamos guardar en la Base de Datos
+        try:
+            return PerroRepository.create(nombre, raza, edad_int, id_usuario, ruta_imagen_bd)
+        except Exception as error:
+            # Si MySQL falla, borramos la foto del disco para no dejar basura
+            if os.path.exists(ruta_fisica):
+                os.remove(ruta_fisica)
+            raise error
 
     @staticmethod
     def delete_perro(perro_id):
