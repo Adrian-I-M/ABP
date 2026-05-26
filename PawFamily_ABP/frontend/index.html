@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PawFamily — Adopta. Cambia una vida.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" type="image/png" href="img/logo.png">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header" id="siteHeader">
+    <a href="index.html" class="brand" aria-label="PawFamily — Inicio">
+      <img src="img/logo.png" alt="PawFamily logo" class="brand__logo" />
+      <span class="brand__word">PawFamily</span>
+    </a>
+    <nav class="nav" aria-label="Navegación principal">
+      <a href="#inicio">Inicio</a>
+      <a href="#perros">Perros</a>
+      <a href="reserva.html">Reservar visita</a>
+      <a href="login.html" class="nav__login">Login</a>
+    </nav>
+    <button class="nav__burger" aria-label="Abrir menú" aria-expanded="false" id="burger">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="hero__inner">
+
+      <!-- Texto izquierda -->
+      <div class="hero__content">
+        <div class="hero__eyebrow">
+          <span class="dot"></span> Protectora · Madrid &amp; alrededores
+        </div>
+        <h1 class="hero__title">
+          Cada perro de aquí <br />
+          está esperando <em>una sola cosa:</em><br />
+          <span class="hero__title-accent">su familia.</span>
+        </h1>
+        <p class="hero__lede">
+          Somos PawFamily. Rescatamos, cuidamos y emparejamos perros con personas que les van a querer
+          de verdad. Sin prisa, sin papeleo absurdo, y con seguimiento después.
+        </p>
+        <div class="hero__cta">
+          <a href="#perros" class="btn btn--primary">Conocer a los perros</a>
+          <a href="reserva.html" class="btn btn--ghost">
+            Reservar una visita
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <dl class="hero__stats">
+          <div><dt>247</dt><dd>perros con familia</dd></div>
+          <div><dt>18</dt><dd>esperando hogar</dd></div>
+          <div><dt>9 años</dt><dd>rescatando juntos</dd></div>
+        </dl>
+      </div>
+
+      <!-- Foto equipo derecha -->
+      <div class="hero__photo">
+        <img src="" alt="Nuestro equipo trabajando" />
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STRIP -->
+  <section class="strip">
+    <p>Adoptar no es comprar. Es comprometerse 10, 12, 15 años con alguien que confía en ti desde el primer día.</p>
+  </section>
+
+  <!-- PERROS -->
+  <section class="dogs" id="perros">
+    <header class="section-head">
+      <div>
+        <p class="section-head__kicker">Disponibles ahora</p>
+        <h2 class="section-head__title">Conoce a la <em>familia</em>.</h2>
+      </div>
+      <p class="section-head__note">
+        Cada ficha tiene historia, carácter y necesidades reales.<br/>Lee con calma antes de decidir.
+      </p>
+    </header>
+    <div class="filters" role="tablist" aria-label="Filtrar por estado">
+      <button class="filter is-active" data-filter="todos" role="tab" aria-selected="true">Todos</button>
+      <button class="filter" data-filter="sin-adopcion" role="tab" aria-selected="false">Sin adopción</button>
+      <button class="filter" data-filter="en-proceso" role="tab" aria-selected="false">En proceso</button>
+      <button class="filter" data-filter="adoptado" role="tab" aria-selected="false">Adoptados</button>
+      <span class="filters__count" id="filtersCount"></span>
+    </div>
+    <ul class="dog-grid" id="dogGrid" aria-live="polite"></ul>
+    <p class="dogs__empty" id="dogsEmpty" hidden>No hay perros que coincidan con este filtro.</p>
+  </section>
+
+  <!-- RESERVAR -->
+  <section class="book" id="reservar">
+    <div class="book__card">
+      <div class="book__copy">
+        <p class="section-head__kicker section-head__kicker--light">Antes de adoptar</p>
+        <h2 class="book__title">Ven a conocerles en persona.</h2>
+        <p class="book__lede">Las fotos enseñan caras, no carácter. Reserva una visita gratis — paseas con el perro que te interesa y decides sin presión.</p>
+        <ul class="book__list">
+          <li>Sábados y domingos · 10:00 – 14:00</li>
+          <li>Visita guiada de 45 minutos</li>
+          <li>Sin compromiso de adopción</li>
+        </ul>
+        <a href="reserva.html" class="btn btn--primary">Reservar mi visita</a>
+      </div>
+      <aside class="book__side" aria-hidden="true">
+        <span class="book__sticker">est. 2017</span>
+        <span class="book__big">PawFamily<br/><em>refugio</em></span>
+        <span class="book__addr">C/ del Encinar, 14<br/>Las Rozas, Madrid</span>
+      </aside>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="site-footer__top">
+      <a href="index.html" class="brand brand--light">
+        <img src="img/logo.png" alt="PawFamily logo" class="brand__logo" />
+        <span class="brand__word">PawFamily</span>
+      </a>
+      <nav class="site-footer__nav" aria-label="Footer">
+        <div>
+          <h4>Adopción</h4>
+          <a href="#perros">Perros disponibles</a>
+          <a href="reserva.html">Reservar visita</a>
+        </div>
+        <div>
+          <h4>Protectora</h4>
+          <a href="#">Quiénes somos</a>
+          <a href="#">Voluntariado</a>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <a href="mailto:hola@pawfamily.es">hola@pawfamily.es</a>
+          <a href="tel:+34910000000">+34 910 00 00 00</a>
+        </div>
+      </nav>
+    </div>
+    <div class="site-footer__bottom">
+      <span>© 2026 PawFamily · Proyecto ABP 1DAM/1DAW</span>
+      <span>Hecho con cariño y muchos pelos en el teclado.</span>
+    </div>
+  </footer>
+
+  <!-- MODAL DETALLE -->
+  <dialog class="dog-modal" id="dogModal" aria-labelledby="modalName">
+    <button class="dog-modal__close" id="modalClose" aria-label="Cerrar">×</button>
+    <div class="dog-modal__body" id="modalBody"></div>
+  </dialog>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
