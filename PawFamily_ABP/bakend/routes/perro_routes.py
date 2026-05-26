@@ -27,17 +27,26 @@ def get_perro(perro_id):
 @perro_bp.route("/perros", methods=["POST"])
 def create_perro():
     try:
-        data = request.get_json() 
-        nombre = data.get("nombre")
-        raza = data.get("raza")
-        edad = data.get("edad")
-        id_usuario = data.get("id_usuario")
+        # Nota: Al subir archivos usamos request.form en lugar de request.get_json()
+        nombre = request.form.get("nombre")
+        raza = request.form.get("raza")
+        edad = request.form.get("edad")
+        id_usuario = request.form.get("id_usuario")
         
-        new_id = PerroService.create_perro(nombre, raza, edad, id_usuario)
-        return jsonify({"mensaje": "Perro añadido", "id": new_id}), 201  # 201: Creado con éxito
+        # Capturamos el archivo binario de la imagen
+        archivo_imagen = request.files.get("imagen")
+        
+        # Recuperamos la ruta de la carpeta que configuramos en app.py
+        from flask import current_app
+        carpeta_destino = current_app.config['UPLOAD_FOLDER']
+        
+        # Enviamos todo al servicio
+        new_id = PerroService.create_perro(nombre, raza, edad, id_usuario, archivo_imagen, carpeta_destino)
+        
+        return jsonify({"mensaje": "Perro añadido con éxito", "id": new_id}), 201
         
     except ValueError as val_error:
-        return jsonify({"error": str(val_error)}), 400  # 400: Error de validación (edad negativa, campos vacíos)
+        return jsonify({"error": str(val_error)}), 400
     except Exception as error:
         return jsonify({"ok": False, "error": str(error)}), 500
 
