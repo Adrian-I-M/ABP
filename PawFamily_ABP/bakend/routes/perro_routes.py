@@ -68,3 +68,33 @@ def delete_perro(perro_id):
         return jsonify({"mensaje": "Perro eliminado"}), 200
     except Exception as error:
         return jsonify({"ok": False, "error": str(error)}), 500  # 500: Error interno del servidor
+
+# Modificar un perro existente por su ID
+@perro_bp.route("/perros/<int:perro_id>", methods=["PUT"])
+def update_perro(perro_id):
+    try:
+        data = request.get_json() # Capturamos el JSON del body
+        
+        nombre = data.get("nombre")
+        chip = data.get("chip")
+        edad = data.get("edad")
+        descripcion = data.get("descripcion")
+        raza = data.get("raza")
+        estado = data.get("estado")
+        historial_medico = data.get("historial_medico")
+        genero = data.get("genero")
+        
+        # Mandamos los datos al servicio
+        success = PerroService.update_perro(
+            perro_id, nombre, chip, edad, descripcion, raza, estado, historial_medico, genero
+        )
+        
+        if not success:
+            return jsonify({"error": "Perro no encontrado o sin cambios"}), 404 # 404 si el ID no existe 
+            
+        return jsonify({"ok": True, "mensaje": "¡Datos del perro actualizados con éxito!"}), 200 # 200 OK 
+        
+    except ValueError as val_error:
+        return jsonify({"error": str(val_error)}), 400 # 400 si fallan las validaciones 
+    except Exception as error:
+        return jsonify({"ok": False, "error": str(error)}), 500

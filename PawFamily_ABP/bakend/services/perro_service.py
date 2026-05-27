@@ -66,6 +66,25 @@ class PerroService:
             raise error
 
     @staticmethod
+    def update_perro(perro_id, nombre, chip, edad, descripcion, raza, estado, historial_medico, genero):
+        # Validaciones básicas obligatorias
+        if not nombre or not raza:
+            raise ValueError("El nombre y la raza son obligatorios para actualizar.")
+        
+        try:
+            edad_int = int(edad)
+        except (ValueError, TypeError):
+            raise ValueError("La edad debe ser un número válido.")
+
+        if edad_int < 0:
+            raise ValueError("La edad no puede ser negativa.")
+            
+        # Llamamos al repositorio para que impacte los cambios en MySQL
+        return PerroRepository.update(
+            perro_id, nombre, chip, edad_int, descripcion, raza, estado, historial_medico, genero
+        )
+
+    @staticmethod
     def delete_perro(perro_id):
         # Llama al repositorio para eliminar un perro por su ID
         return PerroRepository.delete(perro_id)
