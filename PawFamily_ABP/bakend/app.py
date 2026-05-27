@@ -2,6 +2,7 @@ from flask import Flask, render_template, send_from_directory
 from routes.usuario_routes import usuario_bp
 from routes.perro_routes import perro_bp  
 from flask_cors import CORS
+from routes.cita_routes import cita_bp
 
 app = Flask(__name__)
 CORS(app)  # Habilitamos CORS para permitir peticiones desde el frontend
@@ -19,6 +20,7 @@ def uploaded_file(filename):
 # Registramos todos los Blueprints
 app.register_blueprint(usuario_bp)
 app.register_blueprint(perro_bp)  
+app.register_blueprint(cita_bp)
 
 @app.route("/")
 def home():

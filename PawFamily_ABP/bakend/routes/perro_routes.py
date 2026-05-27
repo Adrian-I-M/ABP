@@ -29,9 +29,14 @@ def create_perro():
     try:
         # Nota: Al subir archivos usamos request.form en lugar de request.get_json()
         nombre = request.form.get("nombre")
-        raza = request.form.get("raza")
+        chip = request.form.get("chip")
         edad = request.form.get("edad")
-        id_usuario = request.form.get("id_usuario")
+        descripcion = request.form.get("descripcion")
+        raza = request.form.get("raza")
+        estado = request.form.get("estado")
+        historial_medico = request.form.get("historial_medico")
+        fecha_entrada = request.form.get("fecha_entrada")
+        genero = request.form.get("genero")
         
         # Capturamos el archivo binario de la imagen
         archivo_imagen = request.files.get("imagen")
@@ -41,7 +46,10 @@ def create_perro():
         carpeta_destino = current_app.config['UPLOAD_FOLDER']
         
         # Enviamos todo al servicio
-        new_id = PerroService.create_perro(nombre, raza, edad, id_usuario, archivo_imagen, carpeta_destino)
+        new_id = PerroService.create_perro(
+            nombre, chip, edad, descripcion, raza, 
+            estado, historial_medico, fecha_entrada, archivo_imagen, carpeta_destino, genero
+        )
         
         return jsonify({"mensaje": "Perro añadido con éxito", "id": new_id}), 201
         

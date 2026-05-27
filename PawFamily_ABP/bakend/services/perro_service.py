@@ -20,7 +20,7 @@ class PerroService:
         return perro
 
     @staticmethod
-    def create_perro(nombre, raza, edad, id_usuario, archivo_imagen, carpeta_destino):
+    def create_perro(nombre, chip, edad, descripcion, raza, estado, historial_medico, fecha_entrada, archivo_imagen, carpeta_destino, genero):
         # Validación de campos obligatorios
         if not nombre or not raza:
             raise ValueError("El nombre y la raza son obligatorios")
@@ -55,7 +55,10 @@ class PerroService:
         
         # Intentamos guardar en la Base de Datos
         try:
-            return PerroRepository.create(nombre, raza, edad_int, id_usuario, ruta_imagen_bd)
+            return PerroRepository.create(
+                nombre, chip, edad_int, descripcion, raza, 
+                estado, historial_medico, fecha_entrada, ruta_imagen_bd, genero
+            )
         except Exception as error:
             # Si MySQL falla, borramos la foto del disco para no dejar basura
             if os.path.exists(ruta_fisica):
