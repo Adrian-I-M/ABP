@@ -3,25 +3,36 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PawFamily — Adopta. Cambia una vida.</title>
+  <title>PawFamily — Adopta. Cambia una vida!</title>
+  <link rel="icon" type="image/png" href="img/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
-  <link rel="icon" type="image/png" href="img/logo.png">
 </head>
 <body>
 
-  <!-- HEADER -->
   <header class="site-header" id="siteHeader">
     <a href="index.html" class="brand" aria-label="PawFamily — Inicio">
       <img src="img/logo.png" alt="PawFamily logo" class="brand__logo" />
       <span class="brand__word">PawFamily</span>
     </a>
-    <nav class="nav" aria-label="Navegación principal">
-      <a href="#inicio">Inicio</a>
-      <a href="#perros">Perros</a>
+        <nav class="nav" aria-label="Navegación principal">
+      <a href="index.html">Inicio</a>
+      <a href="index.html#perros">Perros</a>
       <a href="reserva.html">Reservar visita</a>
+      <div class="nav__dropdown">
+        <button class="nav__dropdown-btn">
+          Protectora
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="nav__dropdown-menu">
+          <div class="nav__dropdown-menu-inner">
+            <a href="quienesSomos.html">Quiénes somos</a>
+            <a href="voluntariado.html">Voluntariado</a>
+          </div>
+        </div>
+      </div>
       <a href="login.html" class="nav__login">Login</a>
     </nav>
     <button class="nav__burger" aria-label="Abrir menú" aria-expanded="false" id="burger">
@@ -29,15 +40,12 @@
     </button>
   </header>
 
-  <!-- HERO -->
   <section class="hero" id="inicio">
     <div class="hero__bg" aria-hidden="true"></div>
     <div class="hero__inner">
-
-      <!-- Texto izquierda -->
       <div class="hero__content">
         <div class="hero__eyebrow">
-          <span class="dot"></span> Protectora · Madrid &amp; alrededores
+          <span class="dot"></span> Protectora · Barcelona &amp; alrededores
         </div>
         <h1 class="hero__title">
           Cada perro de aquí <br />
@@ -61,21 +69,16 @@
           <div><dt>9 años</dt><dd>rescatando juntos</dd></div>
         </dl>
       </div>
-
-      <!-- Foto equipo derecha -->
       <div class="hero__photo">
-        <img src="" alt="Nuestro equipo trabajando" />
+        <img src="img/FotoPrueba.png" alt="Nuestro equipo trabajando" />
       </div>
-
     </div>
   </section>
 
-  <!-- STRIP -->
   <section class="strip">
     <p>Adoptar no es comprar. Es comprometerse 10, 12, 15 años con alguien que confía en ti desde el primer día.</p>
   </section>
 
-  <!-- PERROS -->
   <section class="dogs" id="perros">
     <header class="section-head">
       <div>
@@ -97,7 +100,6 @@
     <p class="dogs__empty" id="dogsEmpty" hidden>No hay perros que coincidan con este filtro.</p>
   </section>
 
-  <!-- RESERVAR -->
   <section class="book" id="reservar">
     <div class="book__card">
       <div class="book__copy">
@@ -111,15 +113,14 @@
         </ul>
         <a href="reserva.html" class="btn btn--primary">Reservar mi visita</a>
       </div>
-      <aside class="book__side" aria-hidden="true">
+      <aside class="book__side">
         <span class="book__sticker">est. 2017</span>
         <span class="book__big">PawFamily<br/><em>refugio</em></span>
-        <span class="book__addr">C/ del Encinar, 14<br/>Las Rozas, Madrid</span>
+        <span class="book__addr">Carrer de Caracas, 35<br/>Sant Andreu, Barcelona 08030</span>
       </aside>
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer class="site-footer">
     <div class="site-footer__top">
       <a href="index.html" class="brand brand--light">
@@ -134,13 +135,13 @@
         </div>
         <div>
           <h4>Protectora</h4>
-          <a href="#">Quiénes somos</a>
-          <a href="#">Voluntariado</a>
+          <a href="quienesSomos.html">Quiénes somos</a>
+          <a href="voluntariado.html">Voluntariado</a>
         </div>
         <div>
           <h4>Contacto</h4>
           <a href="mailto:hola@pawfamily.es">hola@pawfamily.es</a>
-          <a href="tel:+34910000000">+34 910 00 00 00</a>
+          <a href="tel:+34930000000">+34 930 00 00 00</a>
         </div>
       </nav>
     </div>
@@ -150,7 +151,6 @@
     </div>
   </footer>
 
-  <!-- MODAL DETALLE -->
   <dialog class="dog-modal" id="dogModal" aria-labelledby="modalName">
     <button class="dog-modal__close" id="modalClose" aria-label="Cerrar">×</button>
     <div class="dog-modal__body" id="modalBody"></div>

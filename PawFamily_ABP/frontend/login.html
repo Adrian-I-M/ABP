@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="img/logo.png">
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
@@ -16,10 +17,22 @@
       <img src="img/logo.png" alt="PawFamily logo" class="brand__logo" />
       <span class="brand__word">PawFamily</span>
     </a>
-    <nav class="nav" aria-label="Navegación principal">
+        <nav class="nav" aria-label="Navegación principal">
       <a href="index.html">Inicio</a>
       <a href="index.html#perros">Perros</a>
       <a href="reserva.html">Reservar visita</a>
+      <div class="nav__dropdown">
+        <button class="nav__dropdown-btn">
+          Protectora
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="nav__dropdown-menu">
+          <div class="nav__dropdown-menu-inner">
+            <a href="quienesSomos.html">Quiénes somos</a>
+            <a href="voluntariado.html">Voluntariado</a>
+          </div>
+        </div>
+      </div>
       <a href="login.html" class="nav__login">Login</a>
     </nav>
     <button class="nav__burger" aria-label="Abrir menú" aria-expanded="false" id="burger">
@@ -43,48 +56,11 @@
         <button type="submit" class="btn btn--primary btn--full">Iniciar sesión</button>
       </form>
       <p class="form-footer">
-        ¿No tienes cuenta? <a href="#">Regístrate gratis</a>
+        ¿No tienes cuenta? <a href="registro.html">Regístrate gratis</a>
       </p>
     </div>
   </main>
-
   <script src="js/main.js"></script>
-  <script>
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-      e.preventDefault(); // Evita que la página se recargue sola
-      
-      // 1. Capturamos lo que el usuario ha escrito en las cajas de texto
-      const loginValue = document.getElementById('login').value;
-      const passwordValue = document.getElementById('password').value;
-
-      try {
-        // 2. Enviamos los datos en secreto a tu servidor Flask
-        const response = await fetch('http://127.0.0.1:5000/api/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json' // Le decimos a Flask que le enviamos un JSON
-          },
-          body: JSON.stringify({
-            login: loginValue,
-            password: passwordValue
-          })
-        });
-
-        // 3. Recibimos la respuesta de Python
-        const resultado = await response.json();
-
-        if (resultado.ok) {
-          alert(resultado.mensaje + ' Bienvenido, ' + resultado.usuario.nombre);
-          // Aquí en el futuro redirigirías a la página privada del usuario
-        } else {
-          alert('Error de login: ' + resultado.error);
-        }
-
-      } catch (error) {
-        console.error('Error en la comunicación:', error);
-        alert('No se ha podido conectar con el servidor de Flask.');
-      }
-    });
-  </script>
+  <script src="js/validaciones.js"></script>
 </body>
 </html>

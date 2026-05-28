@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Voluntariado — PawFamily</title>
+  <link rel="icon" type="image/png" href="img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="index.html" class="brand">
+      <img src="img/logo.png" alt="PawFamily logo" class="brand__logo" />
+      <span class="brand__word">PawFamily</span>
+    </a>
+        <nav class="nav" aria-label="Navegación principal">
+      <a href="index.html">Inicio</a>
+      <a href="index.html#perros">Perros</a>
+      <a href="reserva.html">Reservar visita</a>
+      <div class="nav__dropdown">
+        <button class="nav__dropdown-btn">
+          Protectora
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="nav__dropdown-menu">
+          <div class="nav__dropdown-menu-inner">
+            <a href="quienesSomos.html">Quiénes somos</a>
+            <a href="voluntariado.html">Voluntariado</a>
+          </div>
+        </div>
+      </div>
+      <a href="login.html" class="nav__login">Login</a>
+    </nav>
+    <button class="nav__burger" aria-label="Abrir menú" aria-expanded="false" id="burger">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <section class="page-hero">
+    <h1>Voluntariado</h1>
+    <p>Porque cuidar de ellos es trabajo de muchos. Únete al equipo y marca la diferencia cada semana.</p>
+  </section>
+
+  <div class="content">
+
+    <h2>¿Qué hacen nuestros voluntarios?</h2>
+    <p>El refugio funciona gracias a personas que dedican parte de su tiempo libre a los perros. Hay muchas formas de colaborar — no hace falta experiencia previa, solo ganas y compromiso.</p>
+
+    <div class="roles-grid">
+      <div class="role-card">
+        <div class="role-card__icon">🦮</div>
+        <h3>Paseadores</h3>
+        <p>Sacar a los perros a pasear, socializarlos y darles el ejercicio que necesitan. El rol más demandado y gratificante.</p>
+        <span class="role-card__tag">Fin de semana</span>
+      </div>
+      <div class="role-card">
+        <div class="role-card__icon">🏠</div>
+        <h3>Acogida temporal</h3>
+        <p>Acoger a un perro en tu casa mientras encuentra familia definitiva. Ideal para perros que necesitan un entorno más tranquilo.</p>
+        <span class="role-card__tag">Flexible</span>
+      </div>
+      <div class="role-card">
+        <div class="role-card__icon">📸</div>
+        <h3>Fotografía y redes</h3>
+        <p>Hacer fotos de los perros para sus fichas y gestionar las redes sociales del refugio. Ayuda a que más personas los conozcan.</p>
+        <span class="role-card__tag">Remoto</span>
+      </div>
+      <div class="role-card">
+        <div class="role-card__icon">🧹</div>
+        <h3>Mantenimiento</h3>
+        <p>Ayudar con la limpieza y el mantenimiento del espacio. Fundamental para que los perros vivan en buenas condiciones.</p>
+        <span class="role-card__tag">Presencial</span>
+      </div>
+      <div class="role-card">
+        <div class="role-card__icon">🎓</div>
+        <h3>Educación canina</h3>
+        <p>Si tienes conocimientos de adiestramiento, ayudar a los perros a aprender órdenes básicas aumenta mucho sus posibilidades de adopción.</p>
+        <span class="role-card__tag">Especializado</span>
+      </div>
+      <div class="role-card">
+        <div class="role-card__icon">🚗</div>
+        <h3>Transporte</h3>
+        <p>Llevar perros al veterinario, a eventos de adopción o entre puntos de acogida. Con carnet de conducir y disponibilidad puntual.</p>
+        <span class="role-card__tag">Puntual</span>
+      </div>
+    </div>
+
+    <div class="requisitos">
+      <h3>¿Qué pedimos?</h3>
+      <ul>
+        <li>Tener más de 18 años o contar con autorización de un tutor legal.</li>
+        <li>Comprometerse a un mínimo de 2 horas semanales durante al menos un mes.</li>
+        <li>Asistir a una sesión de orientación antes de empezar (dura unas 2 horas).</li>
+        <li>Respetar el bienestar animal y seguir las indicaciones del equipo.</li>
+        <li>Avisar con antelación si no puedes acudir en alguna ocasión.</li>
+      </ul>
+    </div>
+
+    <div class="form-voluntario">
+      <h2>Quiero ser voluntario</h2>
+      <p>Rellena el formulario y nos pondremos en contacto contigo en menos de 48 horas.</p>
+      <form id="voluntarioForm">
+        <div class="form-group">
+          <label for="nombre">Nombre completo</label>
+          <input type="text" id="nombre" name="nombre" placeholder="Tu nombre y apellidos" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="tu@email.com" required />
+        </div>
+        <div class="form-group">
+          <label for="telefono">Teléfono</label>
+          <input type="tel" id="telefono" name="telefono" placeholder="+34 600 000 000" />
+        </div>
+        <div class="form-group">
+          <label for="rol">Área de interés</label>
+          <select id="rol" name="rol" required>
+            <option value="" disabled selected>Selecciona un área...</option>
+            <option value="paseador">Paseadores</option>
+            <option value="acogida">Acogida temporal</option>
+            <option value="fotografia">Fotografía y redes</option>
+            <option value="mantenimiento">Mantenimiento</option>
+            <option value="educacion">Educación canina</option>
+            <option value="transporte">Transporte</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="mensaje">Cuéntanos algo sobre ti (opcional)</label>
+          <textarea id="mensaje" name="mensaje" placeholder="Experiencia con animales, disponibilidad, motivación..."></textarea>
+        </div>
+        <button type="submit" class="btn btn--primary btn--full">Enviar solicitud</button>
+      </form>
+    </div>
+
+  </div>
+
+  <footer class="site-footer">
+    <div class="site-footer__top">
+      <a href="index.html" class="brand brand--light">
+        <img src="img/logo.png" alt="PawFamily logo" class="brand__logo" />
+        <span class="brand__word">PawFamily</span>
+      </a>
+      <nav class="site-footer__nav" aria-label="Footer">
+        <div>
+          <h4>Adopción</h4>
+          <a href="index.html#perros">Perros disponibles</a>
+          <a href="reserva.html">Reservar visita</a>
+        </div>
+        <div>
+          <h4>Protectora</h4>
+          <a href="quienesSomos.html">Quiénes somos</a>
+          <a href="voluntariado.html">Voluntariado</a>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <a href="mailto:hola@pawfamily.es">hola@pawfamily.es</a>
+          <a href="tel:+34910000000">+34 910 00 00 00</a>
+        </div>
+      </nav>
+    </div>
+    <div class="site-footer__bottom">
+      <span>© 2026 PawFamily · Proyecto ABP 1DAM/1DAW</span>
+      <span>Hecho con cariño y muchos pelos en el teclado.</span>
+    </div>
+  </footer>
+  <script src="js/main.js"></script>
+  <script src="js/validaciones.js"></script>
+</body>
+</html>

@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="img/logo.png">
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
@@ -16,10 +17,22 @@
       <img src="img/logo.png" alt="PawFamily logo" class="brand__logo" />
       <span class="brand__word">PawFamily</span>
     </a>
-    <nav class="nav" aria-label="Navegación principal">
+        <nav class="nav" aria-label="Navegación principal">
       <a href="index.html">Inicio</a>
       <a href="index.html#perros">Perros</a>
       <a href="reserva.html">Reservar visita</a>
+      <div class="nav__dropdown">
+        <button class="nav__dropdown-btn">
+          Protectora
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="nav__dropdown-menu">
+          <div class="nav__dropdown-menu-inner">
+            <a href="quienesSomos.html">Quiénes somos</a>
+            <a href="voluntariado.html">Voluntariado</a>
+          </div>
+        </div>
+      </div>
       <a href="login.html" class="nav__login">Login</a>
     </nav>
     <button class="nav__burger" aria-label="Abrir menú" aria-expanded="false" id="burger">
@@ -61,8 +74,7 @@
       </p>
     </div>
   </main>
-
-  <script src="js/app.js"></script>
+<script src="js/main.js"></script>
   <script>
     const select = document.getElementById('perro');
     const disponibles = PERROS.filter(p => p.estado === 'sin-adopcion');
@@ -73,10 +85,10 @@
       select.appendChild(opt);
     });
     document.getElementById('fecha').min = new Date().toISOString().split('T')[0];
-    document.getElementById('reservaForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('Reserva pendiente de conectar con la API');
-    });
+    const params = new URLSearchParams(window.location.search);
+    const perroId = params.get('perro');
+    if (perroId) select.value = perroId;
   </script>
+  <script src="js/validaciones.js"></script>
 </body>
 </html>

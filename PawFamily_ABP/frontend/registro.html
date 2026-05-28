@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ficha del perro — PawFamily</title>
+  <title>Registro — PawFamily</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
@@ -14,15 +14,7 @@
 
   <header class="site-header">
     <a href="index.html" class="brand">
-      <span class="brand__mark" aria-hidden="true">
-        <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="11" cy="13" rx="3.4" ry="4.4"/>
-          <ellipse cx="20" cy="9"  rx="3.4" ry="4.6"/>
-          <ellipse cx="29" cy="13" rx="3.4" ry="4.4"/>
-          <ellipse cx="33" cy="22" rx="3"   ry="3.6"/>
-          <path d="M20 18c-5.5 0-9 4.2-9 8.5 0 3.7 2.8 6 6.4 6 1.5 0 2-.5 2.6-.5s1.1.5 2.6.5c3.6 0 6.4-2.3 6.4-6 0-4.3-3.5-8.5-9-8.5z"/>
-        </svg>
-      </span>
+      <img src="img/logo.png" alt="PawFamily logo" class="brand__logo" />
       <span class="brand__word">PawFamily</span>
     </a>
     <nav class="nav" aria-label="Navegación principal">
@@ -48,15 +40,39 @@
     </button>
   </header>
 
-  <main class="detalle-main">
-    <div class="detalle-nav">
-      <a href="index.html" class="detalle__back">
-        ← Volver a todos los perros
-      </a>
-    </div>
-
-    <div class="detalle" id="detalleContainer">
-      <p style="color:var(--muted)">Cargando...</p>
+  <main class="form-page">
+    <div class="form-card">
+      <h1>Crea tu cuenta.</h1>
+      <p>Únete a PawFamily y encuentra tu compañero ideal.</p>
+      <form id="registroForm" novalidate>
+        <div class="form-group">
+          <label for="nombre_completo">Nombre completo</label>
+          <input type="text" id="nombre_completo" name="nombre_completo" placeholder="Ana García López" required />
+        </div>
+        <div class="form-group">
+          <label for="username">Nombre de usuario</label>
+          <input type="text" id="username" name="username" placeholder="anagarcia" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="tu@email.com" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <input type="password" id="password" name="password" placeholder="Mínimo 8 caracteres" required />
+        </div>
+        <div class="form-group">
+          <label for="confirm_password">Confirmar contraseña</label>
+          <input type="password" id="confirm_password" name="confirm_password" placeholder="Repite la contraseña" required />
+        </div>
+        <div id="registroExito" style="display:none; margin-bottom:16px; padding:12px 16px; background:var(--green-soft); color:oklch(0.32 0.05 150); border-radius:var(--radius-sm); font-size:14px; font-weight:500;">
+          Cuenta creada correctamente. Redirigiendo...
+        </div>
+        <button type="submit" class="btn btn--primary btn--full">Crear cuenta</button>
+      </form>
+      <p class="form-footer">
+        ¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a>
+      </p>
     </div>
   </main>
 
@@ -91,39 +107,6 @@
   </footer>
 
   <script src="js/main.js"></script>
-  <script>
-    // Leer el id de la URL: detalle-perro.html?id=3
-    const params = new URLSearchParams(window.location.search);
-    const id = Number(params.get('id'));
-    const perro = PERROS.find(p => p.id === id);
-
-    const container = document.getElementById('detalleContainer');
-
-    if (!perro) {
-      container.innerHTML = '<p style="color:var(--muted)">Perro no encontrado. <a href="index.html">Volver al inicio</a></p>';
-    } else {
-      document.title = `${perro.nombre} — PawFamily`;
-      const adoptado = perro.estado === 'adoptado';
-      container.innerHTML = `
-        <img class="detalle__img" src="${perro.imagen || ''}" alt="Foto de ${perro.nombre}" />
-        <div class="detalle__info">
-          <span class="dog-card__badge badge--${perro.estado}" style="position:static;align-self:flex-start">
-            <span class="dot"></span>${ESTADO_LABELS[perro.estado]}
-          </span>
-          <h1 class="detalle__nombre">${perro.nombre}</h1>
-          <dl class="detalle__facts">
-            <div><dt>Raza</dt><dd>${perro.raza}</dd></div>
-            <div><dt>Edad</dt><dd>${perro.edad}</dd></div>
-            <div><dt>Sexo</dt><dd>${perro.sexo || '—'}</dd></div>
-            <div><dt>Tamaño</dt><dd>${perro.tamano || '—'}</dd></div>
-          </dl>
-          <p class="detalle__historia">${perro.historia || 'Próximamente más información sobre ' + perro.nombre + '.'}</p>
-          ${adoptado
-            ? `<button class="btn btn--ghost" disabled style="cursor:default">Ya tiene familia ♥</button>`
-            : `<a href="reserva.html?perro=${perro.id}" class="btn btn--primary">Reservar visita con ${perro.nombre}</a>`
-          }
-        </div>`;
-    }
-  </script>
+  <script src="js/validaciones.js"></script>
 </body>
 </html>
