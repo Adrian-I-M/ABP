@@ -12,6 +12,7 @@
 </head>
 <body>
 
+  <!-- HEADER -->
   <header class="site-header">
     <a href="index.html" class="brand">
       <img src="img/logo.png" alt="PawFamily logo" class="brand__logo" />
@@ -40,19 +41,13 @@
     </button>
   </header>
 
+  <!-- FORMULARIO RESERVA -->
   <main class="form-page">
     <div class="form-card">
       <h1>Reserva tu visita.</h1>
       <p>Gratis y sin compromiso. Ven a conocer al perro que te ha llamado la atención.</p>
+      <p id="reservaUsuarioInfo" style="font-size:0.9rem;color:var(--teal);margin-bottom:0.5rem;"></p>
       <form id="reservaForm">
-        <div class="form-group">
-          <label for="nombre">Tu nombre</label>
-          <input type="text" id="nombre" name="nombre" placeholder="María García" required />
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="tu@email.com" required />
-        </div>
         <div class="form-group">
           <label for="perro">Perro que quieres visitar</label>
           <select id="perro" name="perro" required>
@@ -64,8 +59,8 @@
           <input type="date" id="fecha" name="fecha" required />
         </div>
         <div class="form-group">
-          <label for="notas">Notas (opcional)</label>
-          <textarea id="notas" name="notas" placeholder="¿Tienes alguna pregunta o comentario?"></textarea>
+          <label for="hora">Hora de la visita</label>
+          <input type="time" id="hora" name="hora" required />
         </div>
         <button type="submit" class="btn btn--primary btn--full">Confirmar reserva</button>
       </form>
@@ -76,18 +71,20 @@
   </main>
 <script src="js/main.js"></script>
   <script>
-    const select = document.getElementById('perro');
-    const disponibles = PERROS.filter(p => p.estado === 'sin-adopcion');
-    disponibles.forEach(p => {
-      const opt = document.createElement('option');
-      opt.value = p.id;
-      opt.textContent = `${p.nombre} — ${p.raza}`;
-      select.appendChild(opt);
+    document.addEventListener('perrosCargados', () => {
+      const select = document.getElementById('perro');
+      const disponibles = PERROS.filter(p => p.estado === 'sin-adopcion');
+      disponibles.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = `${p.nombre} — ${p.raza}`;
+        select.appendChild(opt);
+      });
+      document.getElementById('fecha').min = new Date().toISOString().split('T')[0];
+      const params = new URLSearchParams(window.location.search);
+      const perroId = params.get('perro');
+      if (perroId) select.value = perroId;
     });
-    document.getElementById('fecha').min = new Date().toISOString().split('T')[0];
-    const params = new URLSearchParams(window.location.search);
-    const perroId = params.get('perro');
-    if (perroId) select.value = perroId;
   </script>
   <script src="js/validaciones.js"></script>
 </body>

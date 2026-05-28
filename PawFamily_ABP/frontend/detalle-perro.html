@@ -12,6 +12,7 @@
 </head>
 <body>
 
+  <!-- HEADER -->
   <header class="site-header">
     <a href="index.html" class="brand">
       <span class="brand__mark" aria-hidden="true">
@@ -48,6 +49,7 @@
     </button>
   </header>
 
+  <!-- FICHA PERRO -->
   <main class="detalle-main">
     <div class="detalle-nav">
       <a href="index.html" class="detalle__back">
@@ -60,6 +62,7 @@
     </div>
   </main>
 
+  <!-- FOOTER -->
   <footer class="site-footer">
     <div class="site-footer__top">
       <a href="index.html" class="brand brand--light">
@@ -80,7 +83,7 @@
         <div>
           <h4>Contacto</h4>
           <a href="mailto:hola@pawfamily.es">hola@pawfamily.es</a>
-          <a href="tel:+34910000000">+34 910 00 00 00</a>
+          <a href="tel:+34930000000">+34 930 00 00 00</a>
         </div>
       </nav>
     </div>
@@ -92,38 +95,39 @@
 
   <script src="js/main.js"></script>
   <script>
-    // Leer el id de la URL: detalle-perro.html?id=3
-    const params = new URLSearchParams(window.location.search);
-    const id = Number(params.get('id'));
-    const perro = PERROS.find(p => p.id === id);
+    document.addEventListener('perrosCargados', () => {
+      const params = new URLSearchParams(window.location.search);
+      const id = Number(params.get('id'));
+      const perro = PERROS.find(p => p.id === id);
 
-    const container = document.getElementById('detalleContainer');
+      const container = document.getElementById('detalleContainer');
 
-    if (!perro) {
-      container.innerHTML = '<p style="color:var(--muted)">Perro no encontrado. <a href="index.html">Volver al inicio</a></p>';
-    } else {
-      document.title = `${perro.nombre} — PawFamily`;
-      const adoptado = perro.estado === 'adoptado';
-      container.innerHTML = `
-        <img class="detalle__img" src="${perro.imagen || ''}" alt="Foto de ${perro.nombre}" />
-        <div class="detalle__info">
-          <span class="dog-card__badge badge--${perro.estado}" style="position:static;align-self:flex-start">
-            <span class="dot"></span>${ESTADO_LABELS[perro.estado]}
-          </span>
-          <h1 class="detalle__nombre">${perro.nombre}</h1>
-          <dl class="detalle__facts">
-            <div><dt>Raza</dt><dd>${perro.raza}</dd></div>
-            <div><dt>Edad</dt><dd>${perro.edad}</dd></div>
-            <div><dt>Sexo</dt><dd>${perro.sexo || '—'}</dd></div>
-            <div><dt>Tamaño</dt><dd>${perro.tamano || '—'}</dd></div>
-          </dl>
-          <p class="detalle__historia">${perro.historia || 'Próximamente más información sobre ' + perro.nombre + '.'}</p>
-          ${adoptado
-            ? `<button class="btn btn--ghost" disabled style="cursor:default">Ya tiene familia ♥</button>`
-            : `<a href="reserva.html?perro=${perro.id}" class="btn btn--primary">Reservar visita con ${perro.nombre}</a>`
-          }
-        </div>`;
-    }
+      if (!perro) {
+        container.innerHTML = '<p style="color:var(--muted)">Perro no encontrado. <a href="index.html">Volver al inicio</a></p>';
+      } else {
+        document.title = `${perro.nombre} — PawFamily`;
+        const adoptado = perro.estado === 'adoptado';
+        container.innerHTML = `
+          <img class="detalle__img" src="${perro.imagen || ''}" alt="Foto de ${perro.nombre}" />
+          <div class="detalle__info">
+            <span class="dog-card__badge badge--${perro.estado}" style="position:static;align-self:flex-start">
+              <span class="dot"></span>${ESTADO_LABELS[perro.estado] || perro.estado}
+            </span>
+            <h1 class="detalle__nombre">${perro.nombre}</h1>
+            <dl class="detalle__facts">
+              <div><dt>Raza</dt><dd>${perro.raza}</dd></div>
+              <div><dt>Edad</dt><dd>${perro.edad}</dd></div>
+              <div><dt>Sexo</dt><dd>${perro.sexo || '—'}</dd></div>
+              <div><dt>Tamaño</dt><dd>${perro.tamano || '—'}</dd></div>
+            </dl>
+            <p class="detalle__historia">${perro.historia || 'Próximamente más información sobre ' + perro.nombre + '.'}</p>
+            ${adoptado
+              ? `<button class="btn btn--ghost" disabled style="cursor:default">Ya tiene familia ♥</button>`
+              : `<a href="reserva.html?perro=${perro.id}" class="btn btn--primary">Reservar visita con ${perro.nombre}</a>`
+            }
+          </div>`;
+      }
+    });
   </script>
 </body>
 </html>
