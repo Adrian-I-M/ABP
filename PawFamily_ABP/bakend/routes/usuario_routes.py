@@ -49,13 +49,12 @@ def create_user():
 def api_login():
     try:
         data = request.get_json()
-        login_input = data.get("correo", "")        # CORREGIDO: de 'login' a 'correo'
-        password_input = data.get("contrasena", "") # CORREGIDO: de 'password' a 'contrasena'
+        correo = data.get("correo", "")        
+        contrasena = data.get("contrasena", "") 
         
-        print(f"Petición de login Usuario: {login_input}")
+        print(f"Petición de login Usuario: {correo}")
         
-        # El controlador no valida datos, delega la autenticación al servicio
-        usuario_autenticado = UsuarioService.login_user(login_input, password_input)
+        usuario_autenticado = UsuarioService.login_user(correo, contrasena)
         
         return jsonify({
             "ok": True, 
@@ -69,3 +68,24 @@ def api_login():
         return jsonify({"ok": False, "error": str(error)}), 401    # 401: Credenciales incorrectas
     except Exception as error:
         return jsonify({"ok": False, "error": str(error)}), 500       # 500: Error interno del servidor
+
+# Modificar los datos de un usuario por su ID
+@usuario_bp.route("/usuarios/<int:user_id>", methods=["PUT"])
+def update_user(user_id):
+    try:
+        data = request.get_json()
+        nombre = data.get("nombre")
+        correo = data.get("correo") or data.get("email")
+        contrasena = data.get("contrasena") or data.get("password")
+        
+        success = UsuarioService.update_user(user_id, nombre, correo, contrasena)
+        
+        if not success:
+            return jsonify({"error": "Usuario no encontrado o sin cambios"}), 404
+            
+        return jsonify({"ok": True, "mensaje": "¡Perfil de usuario actualizado!"}), 200
+        
+    except ValueError as val_error:
+        return jsonify({"error": str(val_error)}), 400
+    except Exception as error:
+        return jsonify({"ok": False, "error": str(error)}), 500

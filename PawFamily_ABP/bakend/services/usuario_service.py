@@ -71,3 +71,13 @@ class UsuarioService:
             }
         else:
             raise PermissionError("El usuario o la contraseña no coinciden.")
+        
+    @staticmethod
+    def update_user(user_id, nombre, correo, contrasena):
+        if not nombre or not contrasena:
+            raise ValueError("El nombre y la contraseña son obligatorios.")
+        
+        # Validamos que el nuevo email tenga un formato correcto
+        UsuarioService.validar_formato_email(correo)
+        
+        return UsuarioRepository.update(user_id, nombre, correo.strip(), contrasena)

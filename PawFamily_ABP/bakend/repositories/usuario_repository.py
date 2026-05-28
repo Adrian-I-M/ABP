@@ -64,3 +64,23 @@ class UsuarioRepository:
         cursor.close()
         connection.close()
         return usuarios
+    
+    @staticmethod
+    def update(user_id, nombre, correo, contrasena):
+        connection = get_connection()
+        if not connection:  
+            return False
+        cursor = connection.cursor()
+        
+        cursor.execute(
+            """UPDATE usuarios 
+               SET nombre=%s, correo=%s, contrasena=%s 
+               WHERE id=%s""",
+            (nombre, correo, contrasena, user_id)
+        )
+        connection.commit()
+        filas_afectadas = cursor.rowcount
+        
+        cursor.close()
+        connection.close()
+        return filas_afectadas > 0
