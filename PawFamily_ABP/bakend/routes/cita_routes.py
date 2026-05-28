@@ -12,11 +12,11 @@ def crear_cita():
         id_perro = data.get("id_perro")
         fecha_cita = data.get("fecha_cita")
         hora_cita = data.get("hora_cita")
-        motivo = data.get("motivo", "")
-        
-        new_id = CitaService.crear_cita(id_usuario, id_perro, fecha_cita, hora_cita, motivo)
-        return jsonify({"ok": True, "mensaje": "¡Cita agendada con éxito!", "id": new_id}), 201
-        
+
+        new_id = CitaService.crear_cita(id_usuario, id_perro, fecha_cita, hora_cita)
+
+        return jsonify({"ok": True, "mensaje": "Cita agendada con éxito", "id": new_id}), 201
+
     except ValueError as val_error:
         return jsonify({"ok": False, "error": str(val_error)}), 400
     except Exception as error:

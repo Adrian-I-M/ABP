@@ -3,16 +3,16 @@ from config.db import get_connection
 class CitaRepository:
     
     @staticmethod
-    def create(id_usuario, id_perro, fecha_cita, hora_cita, motivo):
+    def create(id_usuario, id_perro, fecha_cita, hora_cita):
         connection = get_connection()
         if not connection:  
             return None
         cursor = connection.cursor()
         
         cursor.execute(
-            """INSERT INTO citas (id_usuario, id_perro, fecha_cita, hora_cita, motivo) 
-               VALUES (%s, %s, %s, %s, %s)""",
-            (id_usuario, id_perro, fecha_cita, hora_cita, motivo)
+            """INSERT INTO citas (id_usuario, id_perro, fecha_cita, hora_cita) 
+            VALUES (%s, %s, %s, %s)""", 
+            (id_usuario, id_perro, fecha_cita, hora_cita)
         )
         connection.commit()
         new_id = cursor.lastrowid
@@ -28,10 +28,10 @@ class CitaRepository:
             return []
         cursor = connection.cursor()
         
-        # Un JOIN espectacular para traer los datos del perro y del usuario del tirón
+        # Un JOIN para traer los datos del perro y del usuario del tirón
         query = """
             SELECT 
-                c.id AS cita_id, c.fecha_cita, c.hora_cita, c.motivo,
+                c.id AS cita_id, c.fecha_cita, c.hora_cita,
                 u.nombre AS nombre_usuario, u.correo AS correo_usuario,
                 p.nombre AS nombre_perro, p.raza AS raza_perro
             FROM citas c
