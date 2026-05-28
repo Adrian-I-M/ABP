@@ -45,3 +45,41 @@ class CitaRepository:
         cursor.close()
         connection.close()
         return citas
+    
+    @staticmethod
+    def update(cita_id, id_usuario, id_perro, fecha_cita, hora_cita):
+        connection = get_connection()
+        if not connection:  
+            return False
+        cursor = connection.cursor()
+        
+        # Modifica los datos de la cita filtrando por su ID único
+        cursor.execute(
+            """UPDATE citas 
+               SET id_usuario=%s, id_perro=%s, fecha_cita=%s, hora_cita=%s 
+               WHERE id=%s""",
+            (id_usuario, id_perro, fecha_cita, hora_cita, cita_id)
+        )
+        connection.commit()
+        filas_afectadas = cursor.rowcount
+        
+        cursor.close()
+        connection.close()
+        return filas_afectadas > 0
+
+    @staticmethod
+    def delete(cita_id):
+        connection = get_connection()
+        if not connection:
+            return False
+            
+        cursor = connection.cursor()
+        # Elimina la cita físicamente de MySQL usando su ID
+        cursor.execute("DELETE FROM citas WHERE id = %s", (cita_id,))
+        connection.commit()
+        
+        filas_afectadas = cursor.rowcount
+        
+        cursor.close()
+        connection.close()
+        return filas_afectadas > 0

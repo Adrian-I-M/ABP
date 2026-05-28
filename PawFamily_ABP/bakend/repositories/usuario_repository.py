@@ -84,3 +84,19 @@ class UsuarioRepository:
         cursor.close()
         connection.close()
         return filas_afectadas > 0
+    @staticmethod
+    def delete(user_id):
+        connection = get_connection()
+        if not connection:
+            return False
+            
+        cursor = connection.cursor()
+        # Elimina el usuario filtrando por su ID
+        cursor.execute("DELETE FROM usuarios WHERE id = %s", (user_id,))
+        connection.commit()
+        
+        filas_afectadas = cursor.rowcount
+        
+        cursor.close()
+        connection.close()
+        return filas_afectadas > 0

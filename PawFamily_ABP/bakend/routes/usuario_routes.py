@@ -89,3 +89,14 @@ def update_user(user_id):
         return jsonify({"error": str(val_error)}), 400
     except Exception as error:
         return jsonify({"ok": False, "error": str(error)}), 500
+    
+# Eliminar un usuario por su ID
+@usuario_bp.route("/usuarios/<int:user_id>", methods=["DELETE"])
+def delete_user(user_id):
+    try:
+        success = UsuarioService.delete_user(user_id)
+        if not success:
+            return jsonify({"error": "Usuario no encontrado"}), 404
+        return jsonify({"mensaje": "Usuario eliminado correctamente"}), 200
+    except Exception as error:
+        return jsonify({"ok": False, "error": str(error)}), 500

@@ -81,3 +81,8 @@ class UsuarioService:
         UsuarioService.validar_formato_email(correo)
         
         return UsuarioRepository.update(user_id, nombre, correo.strip(), contrasena)
+    
+    @staticmethod
+    def delete_user(user_id):
+        # Llama al repositorio para ejecutar el DELETE en MySQL
+        return UsuarioRepository.delete(user_id)
