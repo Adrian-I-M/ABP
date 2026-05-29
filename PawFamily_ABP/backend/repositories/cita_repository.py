@@ -36,7 +36,7 @@ class CitaRepository:
             JOIN perros p ON c.id_perro = p.id
             JOIN razas r ON p.id_raza = r.id_raza
             ORDER BY c.fecha_cita ASC, c.hora_cita ASC
-"""
+        """
         cursor.execute(query)
         filas = cursor.fetchall()
         columnas = [col[0] for col in cursor.description]

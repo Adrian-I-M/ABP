@@ -1,12 +1,15 @@
 <!doctype html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Admin — PawFamily</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap"
+    rel="stylesheet" />
   <link rel="icon" type="image/png" href="img/logo.png">
   <link rel="stylesheet" href="css/styles.css" />
   <style>
@@ -16,10 +19,12 @@
       background: var(--cream);
       padding: 2.5rem 1rem 5rem;
     }
+
     .admin-wrap {
       max-width: 1120px;
       margin: 0 auto;
     }
+
     .admin-topbar {
       display: flex;
       align-items: center;
@@ -29,6 +34,7 @@
       border-bottom: 2px solid var(--beige);
       gap: 1rem;
     }
+
     .admin-topbar__title {
       font-family: 'Instrument Serif', serif;
       font-size: 2rem;
@@ -36,6 +42,7 @@
       margin: 0;
       line-height: 1.1;
     }
+
     .admin-badge {
       background: var(--teal);
       color: #fff;
@@ -62,8 +69,16 @@
       color: #6B4F00;
       line-height: 1.5;
     }
-    .api-notice svg { flex-shrink: 0; margin-top: 1px; color: #C89A00; }
-    .api-notice strong { color: #4A3500; }
+
+    .api-notice svg {
+      flex-shrink: 0;
+      margin-top: 1px;
+      color: #C89A00;
+    }
+
+    .api-notice strong {
+      color: #4A3500;
+    }
 
     /* SECCIONES */
     .admin-section {
@@ -73,6 +88,7 @@
       padding: 1.75rem;
       margin-bottom: 2rem;
     }
+
     .admin-section-header {
       display: flex;
       align-items: center;
@@ -81,6 +97,7 @@
       gap: 1rem;
       flex-wrap: wrap;
     }
+
     .admin-section-title {
       font-family: 'Instrument Serif', serif;
       font-size: 1.4rem;
@@ -89,12 +106,16 @@
     }
 
     /* TABLA */
-    .admin-table-wrap { overflow-x: auto; }
+    .admin-table-wrap {
+      overflow-x: auto;
+    }
+
     .admin-table {
       width: 100%;
       border-collapse: collapse;
       font-size: 0.88rem;
     }
+
     .admin-table th {
       text-align: left;
       padding: 0.6rem 1rem;
@@ -106,17 +127,35 @@
       letter-spacing: 0.05em;
       white-space: nowrap;
     }
-    .admin-table th:first-child { border-radius: 6px 0 0 6px; }
-    .admin-table th:last-child  { border-radius: 0 6px 6px 0; text-align: right; }
+
+    .admin-table th:first-child {
+      border-radius: 6px 0 0 6px;
+    }
+
+    .admin-table th:last-child {
+      border-radius: 0 6px 6px 0;
+      text-align: right;
+    }
+
     .admin-table td {
       padding: 0.85rem 1rem;
       border-bottom: 1px solid var(--beige);
       color: var(--ink);
       vertical-align: middle;
     }
-    .admin-table td:last-child { text-align: right; }
-    .admin-table tr:last-child td { border-bottom: none; }
-    .admin-table tr:hover td { background: #FAFAF8; }
+
+    .admin-table td:last-child {
+      text-align: right;
+    }
+
+    .admin-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .admin-table tr:hover td {
+      background: #FAFAF8;
+    }
+
     .admin-table code {
       font-size: 0.78rem;
       background: var(--beige);
@@ -124,6 +163,7 @@
       border-radius: 4px;
       color: var(--teal);
     }
+
     .tbl-actions {
       display: inline-flex;
       gap: 0.45rem;
@@ -141,6 +181,7 @@
       border-radius: 999px;
       white-space: nowrap;
     }
+
     .estado-badge::before {
       content: '';
       display: inline-block;
@@ -149,12 +190,36 @@
       border-radius: 50%;
       background: currentColor;
     }
-    .estado-badge.sin-adopcion { background: #EAF4EA; color: #2E7D32; }
-    .estado-badge.en-proceso   { background: #FFF3E0; color: #C05E00; }
-    .estado-badge.adoptado     { background: #E8EAF6; color: #3949AB; }
-    .estado-badge.pendiente    { background: #FFF3E0; color: #C05E00; }
-    .estado-badge.confirmada   { background: #EAF4EA; color: #2E7D32; }
-    .estado-badge.cancelada    { background: #FDECEA; color: #B71C1C; }
+
+    .estado-badge.sin-adopcion {
+      background: #EAF4EA;
+      color: #2E7D32;
+    }
+
+    .estado-badge.en-proceso {
+      background: #FFF3E0;
+      color: #C05E00;
+    }
+
+    .estado-badge.adoptado {
+      background: #E8EAF6;
+      color: #3949AB;
+    }
+
+    .estado-badge.pendiente {
+      background: #FFF3E0;
+      color: #C05E00;
+    }
+
+    .estado-badge.confirmada {
+      background: #EAF4EA;
+      color: #2E7D32;
+    }
+
+    .estado-badge.cancelada {
+      background: #FDECEA;
+      color: #B71C1C;
+    }
 
     /* BOTONES TABLA */
     .btn--tbl {
@@ -168,14 +233,44 @@
       transition: background 0.18s, color 0.18s;
       white-space: nowrap;
     }
-    .btn--tbl-edit    { background: var(--blue); color: #fff; }
-    .btn--tbl-edit:hover { background: #2d6a8a; }
-    .btn--tbl-delete  { background: #fff; color: #B71C1C; border: 1.5px solid #B71C1C; }
-    .btn--tbl-delete:hover { background: #FDECEA; }
-    .btn--tbl-confirm { background: #2E7D32; color: #fff; }
-    .btn--tbl-confirm:hover { background: #1B5E20; }
-    .btn--tbl-cancel  { background: #fff; color: #B71C1C; border: 1.5px solid #B71C1C; }
-    .btn--tbl-cancel:hover { background: #FDECEA; }
+
+    .btn--tbl-edit {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .btn--tbl-edit:hover {
+      background: #2d6a8a;
+    }
+
+    .btn--tbl-delete {
+      background: #fff;
+      color: #B71C1C;
+      border: 1.5px solid #B71C1C;
+    }
+
+    .btn--tbl-delete:hover {
+      background: #FDECEA;
+    }
+
+    .btn--tbl-confirm {
+      background: #2E7D32;
+      color: #fff;
+    }
+
+    .btn--tbl-confirm:hover {
+      background: #1B5E20;
+    }
+
+    .btn--tbl-cancel {
+      background: #fff;
+      color: #B71C1C;
+      border: 1.5px solid #B71C1C;
+    }
+
+    .btn--tbl-cancel:hover {
+      background: #FDECEA;
+    }
 
     /* FORMULARIO PERRO */
     .dog-form {
@@ -186,29 +281,40 @@
       padding: 1.5rem;
       margin-bottom: 1.75rem;
     }
-    .dog-form.is-open { display: block; }
+
+    .dog-form.is-open {
+      display: block;
+    }
+
     .dog-form__title {
       font-family: 'Instrument Serif', serif;
       font-size: 1.15rem;
       color: var(--teal);
       margin: 0 0 1.25rem;
     }
+
     .dog-form__grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1rem;
     }
-    .dog-form__full { grid-column: 1 / -1; }
+
+    .dog-form__full {
+      grid-column: 1 / -1;
+    }
+
     .dog-form .form-group {
       display: flex;
       flex-direction: column;
       gap: 0.3rem;
     }
+
     .dog-form .form-group label {
       font-size: 0.82rem;
       font-weight: 600;
       color: var(--teal);
     }
+
     .dog-form .form-group input,
     .dog-form .form-group select,
     .dog-form .form-group textarea {
@@ -221,22 +327,26 @@
       background: #fff;
       transition: border-color 0.18s;
     }
+
     .dog-form .form-group input:focus,
     .dog-form .form-group select:focus,
     .dog-form .form-group textarea:focus {
       outline: none;
       border-color: var(--blue);
     }
+
     .dog-form .form-group textarea {
       resize: vertical;
       min-height: 85px;
     }
+
     .dog-form__actions {
       display: flex;
       gap: 0.75rem;
       margin-top: 1.25rem;
       flex-wrap: wrap;
     }
+
     .btn--outline {
       background: #fff;
       color: var(--blue);
@@ -249,17 +359,29 @@
       cursor: pointer;
       transition: background 0.18s;
     }
-    .btn--outline:hover { background: #EEF5FA; }
+
+    .btn--outline:hover {
+      background: #EEF5FA;
+    }
 
     /* RESPONSIVE */
     @media (max-width: 640px) {
-      .dog-form__grid { grid-template-columns: 1fr; }
-      .dog-form__full { grid-column: 1; }
+      .dog-form__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dog-form__full {
+        grid-column: 1;
+      }
+
       .admin-table th.hide-sm,
-      .admin-table td.hide-sm { display: none; }
+      .admin-table td.hide-sm {
+        display: none;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <!-- HEADER -->
@@ -275,7 +397,10 @@
       <div class="nav__dropdown">
         <button class="nav__dropdown-btn">
           Protectora
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
         </button>
         <div class="nav__dropdown-menu">
           <div class="nav__dropdown-menu-inner">
@@ -302,10 +427,11 @@
 
       <!-- AVISO API -->
       <div class="api-notice" role="note">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="10"/>
-          <line x1="12" y1="8" x2="12" y2="12"/>
-          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="16" x2="12.01" y2="16" />
         </svg>
         <span>
           <strong>Pendiente de conectar con la API:</strong> Las acciones de añadir, editar y eliminar perros,
@@ -464,14 +590,16 @@
 
     const LABELS = {
       "sin-adopcion": "Sin adopción",
-      "en-proceso":   "En proceso",
-      "adoptado":     "Adoptado"
+      "en-proceso": "En proceso",
+      "adoptado": "Adoptado"
     };
 
     // HELPERS
     function formatFecha(f) {
-      const [y, m, d] = f.split('-');
-      return `${d}/${m}/${y}`;
+      if (!f) return '—';
+      const fecha = new Date(f);
+      if (isNaN(fecha)) return f;
+      return fecha.toLocaleDateString('es-ES');
     }
 
     function badgeHTML(estado) {
@@ -530,15 +658,15 @@
       const p = perrosAdmin.find(p => p.id === id);
       if (!p) return;
       editandoId = id;
-      document.getElementById('dogFormTitle').textContent  = `Editar: ${p.nombre}`;
+      document.getElementById('dogFormTitle').textContent = `Editar: ${p.nombre}`;
       document.getElementById('dogFormSubmit').textContent = 'Guardar cambios';
-      document.getElementById('df-nombre').value   = p.nombre;
-      document.getElementById('df-raza').value     = p.raza;
-      document.getElementById('df-edad').value     = p.edadNum || '';
-      document.getElementById('df-sexo').value     = p.sexo   || '';
-      document.getElementById('df-tamano').value   = p.tamano || '';
-      document.getElementById('df-estado').value   = p.estado;
-      document.getElementById('df-imagen').value   = p.imagen || '';
+      document.getElementById('df-nombre').value = p.nombre;
+      document.getElementById('df-raza').value = p.raza;
+      document.getElementById('df-edad').value = p.edadNum || '';
+      document.getElementById('df-sexo').value = p.sexo || '';
+      document.getElementById('df-tamano').value = p.tamano || '';
+      document.getElementById('df-estado').value = p.estado;
+      document.getElementById('df-imagen').value = p.imagen || '';
       document.getElementById('df-historia').value = p.historia || '';
       abrirFormulario();
     }
@@ -595,7 +723,7 @@
         return;
       }
       editandoId = null;
-      document.getElementById('dogFormTitle').textContent  = 'Añadir nuevo perro';
+      document.getElementById('dogFormTitle').textContent = 'Añadir nuevo perro';
       document.getElementById('dogFormSubmit').textContent = 'Guardar perro';
       document.getElementById('dogFormInner').reset();
       abrirFormulario();
@@ -606,8 +734,8 @@
     document.getElementById('dogFormInner').addEventListener('submit', async (e) => {
       e.preventDefault();
       const nombre = document.getElementById('df-nombre').value.trim();
-      const raza   = document.getElementById('df-raza').value.trim();
-      const edad   = document.getElementById('df-edad').value.trim();
+      const raza = document.getElementById('df-raza').value.trim();
+      const edad = document.getElementById('df-edad').value.trim();
       const estado = document.getElementById('df-estado').value;
 
       if (!nombre || !raza || !edad || !estado) {
@@ -618,18 +746,18 @@
       const payload = {
         nombre,
         raza,
-        edad:        Number(edad),
+        edad: Number(edad),
         descripcion: document.getElementById('df-historia').value.trim(),
-        estado:      denormalizarEstado(estado),
-        genero:      sexoAGenero(document.getElementById('df-sexo').value),
-        imagen:      document.getElementById('df-imagen').value.trim() || null
+        estado: denormalizarEstado(estado),
+        genero: sexoAGenero(document.getElementById('df-sexo').value),
+        imagen: document.getElementById('df-imagen').value.trim() || null
       };
 
       const btnSubmit = document.getElementById('dogFormSubmit');
       btnSubmit.disabled = true;
 
       try {
-        const url    = editandoId !== null ? `${API_BASE}/perros/${editandoId}` : `${API_BASE}/perros`;
+        const url = editandoId !== null ? `${API_BASE}/perros/${editandoId}` : `${API_BASE}/perros`;
         const method = editandoId !== null ? 'PUT' : 'POST';
         const res = await fetch(url, {
           method,
@@ -673,4 +801,5 @@
     cargarCitas();
   </script>
 </body>
+
 </html>
