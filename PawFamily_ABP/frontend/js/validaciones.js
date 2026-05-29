@@ -121,11 +121,10 @@ if (reservaForm) {
   const usuarioSesion = JSON.parse(sessionStorage.getItem('usuario') || 'null');
   if (!usuarioSesion) {
     window.location.href = 'login.html';
-    return;
-  } else {
+} else {
     const infoEl = document.getElementById('reservaUsuarioInfo');
     if (infoEl) infoEl.textContent = `Reservando como: ${usuarioSesion.nombre} (${usuarioSesion.email})`;
-  }
+}
 
   const campoPerro = document.getElementById('perro');
   const campoFecha = document.getElementById('fecha');
