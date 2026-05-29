@@ -39,7 +39,7 @@ class CitaRepository:
         """
         cursor.execute(query)
         filas = cursor.fetchall()
-        columnas = [col[0] for col in cursor.description]
+        columnas = cursor.column_names
         cursor.close()
         connection.close()
         citas = []
