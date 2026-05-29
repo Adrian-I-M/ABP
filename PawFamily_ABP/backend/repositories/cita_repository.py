@@ -25,7 +25,7 @@ class CitaRepository:
         connection = get_connection()
         if not connection:
             return []
-        cursor = connection.cursor(dictionary=True)
+        cursor = connection.cursor()
         query = """
             SELECT
                 c.id_cita AS cita_id, c.fecha_cita, c.hora_cita,
@@ -37,13 +37,17 @@ class CitaRepository:
             ORDER BY c.fecha_cita ASC, c.hora_cita ASC
         """
         cursor.execute(query)
-        citas = cursor.fetchall()
+        filas = cursor.fetchall()
+        columnas = [col[0] for col in cursor.description]
         cursor.close()
         connection.close()
-        for cita in citas:
+        citas = []
+        for fila in filas:
+            cita = dict(zip(columnas, fila))
             if hasattr(cita['hora_cita'], 'total_seconds'):
                 total = int(cita['hora_cita'].total_seconds())
                 cita['hora_cita'] = f"{total // 3600:02d}:{(total % 3600) // 60:02d}"
+            citas.append(cita)
         return citas
 
     # UPDATE
