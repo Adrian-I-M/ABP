@@ -1,10 +1,4 @@
-/* =====================================================
-   PawFamily — validaciones.js
-   Validaciones de frontend para login, reserva y voluntariado.
-   Las validaciones reales (seguridad) van en el backend.
-   ===================================================== */
-
-/* ========== UTILIDADES ========== */
+// UTILIDADES
 
 function mostrarError(campo, mensaje) {
   const grupo = campo.closest('.form-group');
@@ -17,7 +11,7 @@ function mostrarError(campo, mensaje) {
   error.textContent = mensaje;
   campo.classList.add('campo-error');
 }
-
+  
 function limpiarError(campo) {
   const grupo = campo.closest('.form-group');
   const error = grupo.querySelector('.form-error');
@@ -35,21 +29,20 @@ function esFechaFutura(fecha) {
   return new Date(fecha) >= hoy;
 }
 
-/* ========== VALIDACIÓN LOGIN ========== */
+// VALIDACION LOGIN
 
 const loginForm = document.getElementById('loginForm');
 if (loginForm) {
-  const campoLogin    = document.getElementById('login');
+  const campoEmail    = document.getElementById('login');
   const campoPassword = document.getElementById('password');
 
-  // Validar al perder el foco
-  campoLogin.addEventListener('blur', () => {
-    if (!campoLogin.value.trim()) {
-      mostrarError(campoLogin, 'El usuario o email no puede estar vacío.');
-    } else if (campoLogin.value.includes('@') && !esEmailValido(campoLogin.value)) {
-      mostrarError(campoLogin, 'El email no tiene un formato válido.');
+  campoEmail.addEventListener('blur', () => {
+    if (!campoEmail.value.trim()) {
+      mostrarError(campoEmail, 'El email no puede estar vacío.');
+    } else if (!esEmailValido(campoEmail.value)) {
+      mostrarError(campoEmail, 'El email no tiene un formato válido.');
     } else {
-      limpiarError(campoLogin);
+      limpiarError(campoEmail);
     }
   });
 
@@ -63,21 +56,19 @@ if (loginForm) {
     }
   });
 
-  // Limpiar error al escribir
-  [campoLogin, campoPassword].forEach(campo => {
+  [campoEmail, campoPassword].forEach(campo => {
     campo.addEventListener('input', () => limpiarError(campo));
   });
 
-  // Validar al enviar
-  loginForm.addEventListener('submit', (e) => {
+  loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     let valido = true;
 
-    if (!campoLogin.value.trim()) {
-      mostrarError(campoLogin, 'El usuario o email no puede estar vacío.');
+    if (!campoEmail.value.trim()) {
+      mostrarError(campoEmail, 'El email no puede estar vacío.');
       valido = false;
-    } else if (campoLogin.value.includes('@') && !esEmailValido(campoLogin.value)) {
-      mostrarError(campoLogin, 'El email no tiene un formato válido.');
+    } else if (!esEmailValido(campoEmail.value)) {
+      mostrarError(campoEmail, 'El email no tiene un formato válido.');
       valido = false;
     }
 
@@ -89,53 +80,66 @@ if (loginForm) {
       valido = false;
     }
 
-    if (valido) {
-      // Credenciales admin simuladas — reemplazar por fetch('/api/login', ...) cuando el backend esté listo
-      if (campoLogin.value.trim() === 'admin' && campoPassword.value === 'admin123') {
-        window.location.href = 'admin.html';
+    if (!valido) return;
+
+    const btnSubmit = loginForm.querySelector('button[type="submit"]');
+    btnSubmit.disabled = true;
+    btnSubmit.textContent = 'Iniciando sesión...';
+
+    try {
+      const res = await fetch(`${API_BASE}/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          correo:    campoEmail.value.trim(),
+          contrasena: campoPassword.value
+        })
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.ok) {
+        sessionStorage.setItem('usuario', JSON.stringify(data.usuario));
+        window.location.href = data.usuario.rol === 'Administrador' ? 'admin.html' : 'index.html';
       } else {
-        window.location.href = 'index.html';
+        mostrarError(campoPassword, data.error || 'Credenciales incorrectas.');
+        btnSubmit.disabled = false;
+        btnSubmit.textContent = 'Iniciar sesión';
       }
+    } catch {
+      mostrarError(campoPassword, 'No se pudo conectar con el servidor. Inténtalo de nuevo.');
+      btnSubmit.disabled = false;
+      btnSubmit.textContent = 'Iniciar sesión';
     }
   });
 }
 
-/* ========== VALIDACIÓN RESERVA ========== */
+// VALIDACION RESERVA
 
 const reservaForm = document.getElementById('reservaForm');
 if (reservaForm) {
-  const campoNombre = document.getElementById('nombre');
-  const campoEmail  = document.getElementById('email');
-  const campoPerro  = document.getElementById('perro');
-  const campoFecha  = document.getElementById('fecha');
+  const usuarioSesion = JSON.parse(sessionStorage.getItem('usuario') || 'null');
+  if (!usuarioSesion) {
+    window.location.href = 'login.html';
+    return;
+  } else {
+    const infoEl = document.getElementById('reservaUsuarioInfo');
+    if (infoEl) infoEl.textContent = `Reservando como: ${usuarioSesion.nombre} (${usuarioSesion.email})`;
+  }
 
-  const camposReserva = [campoNombre, campoEmail, campoPerro, campoFecha];
+  const campoPerro = document.getElementById('perro');
+  const campoFecha = document.getElementById('fecha');
+  const campoHora  = document.getElementById('hora');
+
+  const camposReserva = [campoPerro, campoFecha, campoHora];
 
   camposReserva.forEach(campo => {
-    campo.addEventListener('blur', () => validarCampoReserva(campo));
-    campo.addEventListener('input', () => limpiarError(campo));
+    campo.addEventListener('blur',   () => validarCampoReserva(campo));
+    campo.addEventListener('input',  () => limpiarError(campo));
     campo.addEventListener('change', () => validarCampoReserva(campo));
   });
 
   function validarCampoReserva(campo) {
-    if (campo === campoNombre) {
-      if (!campo.value.trim()) {
-        mostrarError(campo, 'El nombre no puede estar vacío.');
-      } else if (campo.value.trim().length < 3) {
-        mostrarError(campo, 'El nombre debe tener al menos 3 caracteres.');
-      } else {
-        limpiarError(campo);
-      }
-    }
-    if (campo === campoEmail) {
-      if (!campo.value.trim()) {
-        mostrarError(campo, 'El email no puede estar vacío.');
-      } else if (!esEmailValido(campo.value)) {
-        mostrarError(campo, 'Introduce un email válido (ejemplo@dominio.com).');
-      } else {
-        limpiarError(campo);
-      }
-    }
     if (campo === campoPerro) {
       if (!campo.value) {
         mostrarError(campo, 'Selecciona un perro para visitar.');
@@ -152,50 +156,96 @@ if (reservaForm) {
         limpiarError(campo);
       }
     }
+    if (campo === campoHora) {
+      if (!campo.value) {
+        mostrarError(campo, 'Selecciona una hora para la visita.');
+      } else {
+        limpiarError(campo);
+      }
+    }
   }
 
-  reservaForm.addEventListener('submit', (e) => {
+  reservaForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    let valido = true;
 
-    camposReserva.forEach(campo => {
-      validarCampoReserva(campo);
-      const error = campo.closest('.form-group').querySelector('.form-error');
-      if (error && error.textContent) valido = false;
+    camposReserva.forEach(campo => validarCampoReserva(campo));
+
+    const hayErrores = camposReserva.some(campo => {
+      const err = campo.closest('.form-group').querySelector('.form-error');
+      return err && err.textContent;
     });
 
-    if (valido) {
-      // fetch('/api/visitas', { method: 'POST', body: JSON.stringify({...}) })
-      alert('Reserva OK — pendiente de conectar con la API');
+    if (hayErrores) return;
+
+    const btnSubmit = reservaForm.querySelector('button[type="submit"]');
+    btnSubmit.disabled = true;
+    btnSubmit.textContent = 'Confirmando...';
+
+    try {
+      const res = await fetch(`${API_BASE}/citas`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id_usuario: usuarioSesion.id,
+          id_perro:   Number(campoPerro.value),
+          fecha_cita: campoFecha.value,
+          hora_cita:  campoHora.value
+        })
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.ok) {
+        reservaForm.innerHTML = `
+          <div style="text-align:center;padding:2rem 0">
+            <p style="font-size:1.3rem;font-weight:600;color:var(--teal);margin-bottom:0.5rem">¡Visita reservada!</p>
+            <p style="color:var(--ink)">Te esperamos el <strong>${campoFecha.value}</strong> a las <strong>${campoHora.value}</strong>.</p>
+            <a href="index.html" class="btn btn--primary" style="margin-top:1.5rem;display:inline-block">Volver al inicio</a>
+          </div>`;
+      } else {
+        const msgError = reservaForm.querySelector('.form-error-general') || (() => {
+          const span = document.createElement('span');
+          span.className = 'form-error form-error-general';
+          span.style.display = 'block';
+          span.style.marginBottom = '12px';
+          reservaForm.prepend(span);
+          return span;
+        })();
+        msgError.textContent = data.error || 'Error al crear la reserva. Inténtalo de nuevo.';
+        btnSubmit.disabled = false;
+        btnSubmit.textContent = 'Confirmar reserva';
+      }
+    } catch {
+      const msgError = reservaForm.querySelector('.form-error-general') || (() => {
+        const span = document.createElement('span');
+        span.className = 'form-error form-error-general';
+        span.style.display = 'block';
+        span.style.marginBottom = '12px';
+        reservaForm.prepend(span);
+        return span;
+      })();
+      msgError.textContent = 'No se pudo conectar con el servidor.';
+      btnSubmit.disabled = false;
+      btnSubmit.textContent = 'Confirmar reserva';
     }
   });
 }
 
-/* ========== VALIDACIÓN REGISTRO ========== */
+// VALIDACION REGISTRO
 
 const registroForm = document.getElementById('registroForm');
 if (registroForm) {
   const campoNombre   = document.getElementById('nombre_completo');
-  const campoUsername = document.getElementById('username');
   const campoEmail    = document.getElementById('email');
   const campoPassword = document.getElementById('password');
   const campoConfirm  = document.getElementById('confirm_password');
 
-  const camposRegistro = [campoNombre, campoUsername, campoEmail, campoPassword, campoConfirm];
+  const camposRegistro = [campoNombre, campoEmail, campoPassword, campoConfirm];
 
   function validarCampoRegistro(campo) {
     if (campo === campoNombre) {
       if (!campo.value.trim()) {
         mostrarError(campo, 'El nombre completo no puede estar vacío.');
-      } else {
-        limpiarError(campo);
-      }
-    }
-    if (campo === campoUsername) {
-      if (!campo.value.trim()) {
-        mostrarError(campo, 'El nombre de usuario no puede estar vacío.');
-      } else if (/\s/.test(campo.value)) {
-        mostrarError(campo, 'El nombre de usuario no puede contener espacios.');
       } else {
         limpiarError(campo);
       }
@@ -234,7 +284,7 @@ if (registroForm) {
     campo.addEventListener('input', () => limpiarError(campo));
   });
 
-  registroForm.addEventListener('submit', (e) => {
+  registroForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     camposRegistro.forEach(campo => validarCampoRegistro(campo));
@@ -244,83 +294,47 @@ if (registroForm) {
       return err && err.textContent;
     });
 
-    if (!hayErrores) {
-      const fecha_alta = new Date().toISOString();
-      // fetch('/api/usuarios', { method: 'POST', body: JSON.stringify({ nombre_completo, username, email, password, fecha_alta }) })
-      document.getElementById('registroExito').style.display = 'block';
-      registroForm.querySelectorAll('input, button').forEach(el => el.disabled = true);
-      setTimeout(() => { window.location.href = 'login.html'; }, 2000);
+    if (hayErrores) return;
+
+    const btnSubmit = registroForm.querySelector('button[type="submit"]');
+    btnSubmit.disabled = true;
+    btnSubmit.textContent = 'Creando cuenta...';
+
+    try {
+      const res = await fetch(`${API_BASE}/usuarios`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nombre:     campoNombre.value.trim(),
+          correo:     campoEmail.value.trim(),
+          contrasena: campoPassword.value
+        })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        document.getElementById('registroExito').style.display = 'block';
+        registroForm.querySelectorAll('input, button').forEach(el => el.disabled = true);
+        setTimeout(() => { window.location.href = 'login.html'; }, 2000);
+      } else {
+        const msgError = registroForm.querySelector('.form-error-general') || (() => {
+          const span = document.createElement('span');
+          span.className = 'form-error form-error-general';
+          span.style.display = 'block';
+          span.style.marginBottom = '12px';
+          registroForm.prepend(span);
+          return span;
+        })();
+        msgError.textContent = data.error || 'Error al crear la cuenta. Inténtalo de nuevo.';
+        btnSubmit.disabled = false;
+        btnSubmit.textContent = 'Crear cuenta';
+      }
+    } catch {
+      mostrarError(campoEmail, 'No se pudo conectar con el servidor.');
+      btnSubmit.disabled = false;
+      btnSubmit.textContent = 'Crear cuenta';
     }
   });
 }
 
-/* ========== VALIDACIÓN VOLUNTARIADO ========== */
-
-const voluntarioForm = document.getElementById('voluntarioForm');
-if (voluntarioForm) {
-  const campoNombre   = document.getElementById('nombre');
-  const campoEmail    = document.getElementById('email');
-  const campoTelefono = document.getElementById('telefono');
-  const campoRol      = document.getElementById('rol');
-
-  const camposVol = [campoNombre, campoEmail, campoRol];
-
-  camposVol.forEach(campo => {
-    campo.addEventListener('blur', () => validarCampoVol(campo));
-    campo.addEventListener('input', () => limpiarError(campo));
-    campo.addEventListener('change', () => validarCampoVol(campo));
-  });
-
-  // Teléfono opcional pero si se rellena debe ser válido
-  campoTelefono.addEventListener('blur', () => {
-    if (campoTelefono.value.trim() && !/^[+\d\s]{7,15}$/.test(campoTelefono.value)) {
-      mostrarError(campoTelefono, 'Introduce un teléfono válido.');
-    } else {
-      limpiarError(campoTelefono);
-    }
-  });
-
-  function validarCampoVol(campo) {
-    if (campo === campoNombre) {
-      if (!campo.value.trim()) {
-        mostrarError(campo, 'El nombre no puede estar vacío.');
-      } else if (campo.value.trim().length < 3) {
-        mostrarError(campo, 'El nombre debe tener al menos 3 caracteres.');
-      } else {
-        limpiarError(campo);
-      }
-    }
-    if (campo === campoEmail) {
-      if (!campo.value.trim()) {
-        mostrarError(campo, 'El email no puede estar vacío.');
-      } else if (!esEmailValido(campo.value)) {
-        mostrarError(campo, 'Introduce un email válido (ejemplo@dominio.com).');
-      } else {
-        limpiarError(campo);
-      }
-    }
-    if (campo === campoRol) {
-      if (!campo.value) {
-        mostrarError(campo, 'Selecciona un área de voluntariado.');
-      } else {
-        limpiarError(campo);
-      }
-    }
-  }
-
-  voluntarioForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    let valido = true;
-
-    camposVol.forEach(campo => {
-      validarCampoVol(campo);
-      const error = campo.closest('.form-group').querySelector('.form-error');
-      if (error && error.textContent) valido = false;
-    });
-
-    if (valido) {
-      // fetch('/api/voluntarios', { method: 'POST', body: JSON.stringify({...}) })
-      alert('Solicitud OK — pendiente de conectar con la API');
-    }
-  });
-}
