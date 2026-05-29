@@ -1,0 +1,805 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — PawFamily</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap"
+    rel="stylesheet" />
+  <link rel="icon" type="image/png" href="img/logo.png">
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    /* LAYOUT ADMIN */
+    .admin-page {
+      min-height: 100vh;
+      background: var(--cream);
+      padding: 2.5rem 1rem 5rem;
+    }
+
+    .admin-wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .admin-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 2px solid var(--beige);
+      gap: 1rem;
+    }
+
+    .admin-topbar__title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2rem;
+      color: var(--teal);
+      margin: 0;
+      line-height: 1.1;
+    }
+
+    .admin-badge {
+      background: var(--teal);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* AVISO API */
+    .api-notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      background: #FFFBEB;
+      border: 1.5px solid #F5C842;
+      border-radius: 10px;
+      padding: 0.9rem 1.25rem;
+      margin-bottom: 2rem;
+      font-size: 0.88rem;
+      color: #6B4F00;
+      line-height: 1.5;
+    }
+
+    .api-notice svg {
+      flex-shrink: 0;
+      margin-top: 1px;
+      color: #C89A00;
+    }
+
+    .api-notice strong {
+      color: #4A3500;
+    }
+
+    /* SECCIONES */
+    .admin-section {
+      background: #fff;
+      border-radius: 14px;
+      border: 1px solid var(--beige);
+      padding: 1.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .admin-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .admin-section-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.4rem;
+      color: var(--teal);
+      margin: 0;
+    }
+
+    /* TABLA */
+    .admin-table-wrap {
+      overflow-x: auto;
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    .admin-table th {
+      text-align: left;
+      padding: 0.6rem 1rem;
+      background: var(--beige);
+      color: var(--teal);
+      font-weight: 700;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .admin-table th:first-child {
+      border-radius: 6px 0 0 6px;
+    }
+
+    .admin-table th:last-child {
+      border-radius: 0 6px 6px 0;
+      text-align: right;
+    }
+
+    .admin-table td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--beige);
+      color: var(--ink);
+      vertical-align: middle;
+    }
+
+    .admin-table td:last-child {
+      text-align: right;
+    }
+
+    .admin-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .admin-table tr:hover td {
+      background: #FAFAF8;
+    }
+
+    .admin-table code {
+      font-size: 0.78rem;
+      background: var(--beige);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--teal);
+    }
+
+    .tbl-actions {
+      display: inline-flex;
+      gap: 0.45rem;
+      justify-content: flex-end;
+    }
+
+    /* BADGES ESTADO */
+    .estado-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .estado-badge::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .estado-badge.sin-adopcion {
+      background: #EAF4EA;
+      color: #2E7D32;
+    }
+
+    .estado-badge.en-proceso {
+      background: #FFF3E0;
+      color: #C05E00;
+    }
+
+    .estado-badge.adoptado {
+      background: #E8EAF6;
+      color: #3949AB;
+    }
+
+    .estado-badge.pendiente {
+      background: #FFF3E0;
+      color: #C05E00;
+    }
+
+    .estado-badge.confirmada {
+      background: #EAF4EA;
+      color: #2E7D32;
+    }
+
+    .estado-badge.cancelada {
+      background: #FDECEA;
+      color: #B71C1C;
+    }
+
+    /* BOTONES TABLA */
+    .btn--tbl {
+      border: none;
+      padding: 0.38rem 0.8rem;
+      border-radius: 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+      white-space: nowrap;
+    }
+
+    .btn--tbl-edit {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .btn--tbl-edit:hover {
+      background: #2d6a8a;
+    }
+
+    .btn--tbl-delete {
+      background: #fff;
+      color: #B71C1C;
+      border: 1.5px solid #B71C1C;
+    }
+
+    .btn--tbl-delete:hover {
+      background: #FDECEA;
+    }
+
+    .btn--tbl-confirm {
+      background: #2E7D32;
+      color: #fff;
+    }
+
+    .btn--tbl-confirm:hover {
+      background: #1B5E20;
+    }
+
+    .btn--tbl-cancel {
+      background: #fff;
+      color: #B71C1C;
+      border: 1.5px solid #B71C1C;
+    }
+
+    .btn--tbl-cancel:hover {
+      background: #FDECEA;
+    }
+
+    /* FORMULARIO PERRO */
+    .dog-form {
+      display: none;
+      background: var(--cream);
+      border: 1.5px solid var(--beige);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .dog-form.is-open {
+      display: block;
+    }
+
+    .dog-form__title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.15rem;
+      color: var(--teal);
+      margin: 0 0 1.25rem;
+    }
+
+    .dog-form__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .dog-form__full {
+      grid-column: 1 / -1;
+    }
+
+    .dog-form .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .dog-form .form-group label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--teal);
+    }
+
+    .dog-form .form-group input,
+    .dog-form .form-group select,
+    .dog-form .form-group textarea {
+      padding: 0.6rem 0.85rem;
+      border: 1.5px solid #D4C9B8;
+      border-radius: 7px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      color: var(--ink);
+      background: #fff;
+      transition: border-color 0.18s;
+    }
+
+    .dog-form .form-group input:focus,
+    .dog-form .form-group select:focus,
+    .dog-form .form-group textarea:focus {
+      outline: none;
+      border-color: var(--blue);
+    }
+
+    .dog-form .form-group textarea {
+      resize: vertical;
+      min-height: 85px;
+    }
+
+    .dog-form__actions {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .btn--outline {
+      background: #fff;
+      color: var(--blue);
+      border: 1.5px solid var(--blue);
+      padding: 0.65rem 1.5rem;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.18s;
+    }
+
+    .btn--outline:hover {
+      background: #EEF5FA;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 640px) {
+      .dog-form__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dog-form__full {
+        grid-column: 1;
+      }
+
+      .admin-table th.hide-sm,
+      .admin-table td.hide-sm {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <a href="index.html" class="brand">
+      <img src="img/logo.png" alt="PawFamily logo" class="brand__logo" />
+      <span class="brand__word">PawFamily</span>
+    </a>
+    <nav class="nav" aria-label="Navegación principal">
+      <a href="index.html">Inicio</a>
+      <a href="index.html#perros">Perros</a>
+      <a href="reserva.html">Reservar visita</a>
+      <div class="nav__dropdown">
+        <button class="nav__dropdown-btn">
+          Protectora
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </button>
+        <div class="nav__dropdown-menu">
+          <div class="nav__dropdown-menu-inner">
+            <a href="quienesSomos.html">Quiénes somos</a>
+            <a href="voluntariado.html">Voluntariado</a>
+          </div>
+        </div>
+      </div>
+      <a href="login.html" class="nav__login">Login</a>
+    </nav>
+    <button class="nav__burger" aria-label="Abrir menú" aria-expanded="false" id="burger">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main class="admin-page">
+    <div class="admin-wrap">
+
+      <!-- CABECERA -->
+      <div class="admin-topbar">
+        <h1 class="admin-topbar__title">Panel de administración</h1>
+        <span class="admin-badge">Admin</span>
+      </div>
+
+      <!-- AVISO API -->
+      <div class="api-notice" role="note">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
+        <span>
+          <strong>Pendiente de conectar con la API:</strong> Las acciones de añadir, editar y eliminar perros,
+          y la gestión de visitas, están pendientes de integrarse con el backend Python.
+          Los cambios que hagas en esta pantalla son temporales y se perderán al recargar la página.
+        </span>
+      </div>
+
+      <!-- GESTION DE PERROS -->
+      <section class="admin-section">
+        <div class="admin-section-header">
+          <h2 class="admin-section-title">Gestión de perros</h2>
+          <button class="btn btn--primary" id="btnAnadirPerro" type="button">+ Añadir perro</button>
+        </div>
+
+        <!-- FORMULARIO PERRO -->
+        <div class="dog-form" id="dogForm" aria-label="Formulario de perro">
+          <h3 class="dog-form__title" id="dogFormTitle">Añadir nuevo perro</h3>
+          <form id="dogFormInner" novalidate>
+            <div class="dog-form__grid">
+              <div class="form-group">
+                <label for="df-nombre">Nombre *</label>
+                <input type="text" id="df-nombre" placeholder="Ej. Bruno" required />
+              </div>
+              <div class="form-group">
+                <label for="df-raza">Raza *</label>
+                <input type="text" id="df-raza" placeholder="Ej. Mestizo Labrador" required />
+              </div>
+              <div class="form-group">
+                <label for="df-edad">Edad *</label>
+                <input type="text" id="df-edad" placeholder="Ej. 3 años" required />
+              </div>
+              <div class="form-group">
+                <label for="df-sexo">Sexo</label>
+                <select id="df-sexo">
+                  <option value="">Selecciona...</option>
+                  <option value="Macho">Macho</option>
+                  <option value="Hembra">Hembra</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="df-tamano">Tamaño y peso</label>
+                <input type="text" id="df-tamano" placeholder="Ej. Grande · 28 kg" />
+              </div>
+              <div class="form-group">
+                <label for="df-estado">Estado *</label>
+                <select id="df-estado" required>
+                  <option value="">Selecciona...</option>
+                  <option value="sin-adopcion">Sin adopción</option>
+                  <option value="en-proceso">En proceso</option>
+                  <option value="adoptado">Adoptado</option>
+                </select>
+              </div>
+              <div class="form-group dog-form__full">
+                <label for="df-imagen">URL de la imagen</label>
+                <input type="url" id="df-imagen" placeholder="https://..." />
+              </div>
+              <div class="form-group dog-form__full">
+                <label for="df-historia">Historia</label>
+                <textarea id="df-historia" placeholder="Cuenta brevemente la historia de este perro..."></textarea>
+              </div>
+            </div>
+            <div class="dog-form__actions">
+              <button type="submit" class="btn btn--primary" id="dogFormSubmit">Guardar perro</button>
+              <button type="button" class="btn--outline" id="dogFormCancel">Cancelar</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- TABLA PERROS -->
+        <div class="admin-table-wrap">
+          <table class="admin-table" aria-label="Lista de perros">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th class="hide-sm">Raza</th>
+                <th class="hide-sm">Edad</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="perrosTbody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- VISITAS PENDIENTES -->
+      <section class="admin-section">
+        <div class="admin-section-header">
+          <h2 class="admin-section-title">Visitas pendientes</h2>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table" aria-label="Lista de visitas">
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Perro</th>
+                <th class="hide-sm">Fecha</th>
+                <th class="hide-sm">Hora</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="visitasTbody"></tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="site-footer__top">
+      <a href="index.html" class="brand brand--light">
+        <img src="img/logo.png" alt="PawFamily logo" class="brand__logo" />
+        <span class="brand__word">PawFamily</span>
+      </a>
+      <nav class="site-footer__nav" aria-label="Footer">
+        <div>
+          <h4>Adopción</h4>
+          <a href="index.html#perros">Perros disponibles</a>
+          <a href="reserva.html">Reservar visita</a>
+        </div>
+        <div>
+          <h4>Protectora</h4>
+          <a href="quienesSomos.html">Quiénes somos</a>
+          <a href="voluntariado.html">Voluntariado</a>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <a href="mailto:hola@pawfamily.es">hola@pawfamily.es</a>
+          <a href="tel:+34930000000">+34 930 00 00 00</a>
+        </div>
+      </nav>
+    </div>
+    <div class="site-footer__bottom">
+      <span>© 2026 PawFamily · Proyecto ABP 1DAM/1DAW</span>
+      <span>Hecho con cariño y muchos pelos en el teclado.</span>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="js/main.js"></script>
+  <script>
+    // CONTROL DE ACCESO
+    const usuarioAdmin = JSON.parse(sessionStorage.getItem('usuario') || 'null');
+    if (!usuarioAdmin || usuarioAdmin.rol !== 'Administrador') {
+      window.location.href = 'login.html';
+    }
+
+    // ESTADO LOCAL
+    let perrosAdmin = [];
+    let visitasAdmin = [];
+    let editandoId = null;
+
+    const LABELS = {
+      "sin-adopcion": "Sin adopción",
+      "en-proceso": "En proceso",
+      "adoptado": "Adoptado"
+    };
+
+    // HELPERS
+    function formatFecha(f) {
+      if (!f) return '—';
+      const fecha = new Date(f);
+      if (isNaN(fecha)) return f;
+      return fecha.toLocaleDateString('es-ES');
+    }
+
+    function badgeHTML(estado) {
+      return `<span class="estado-badge ${estado}">${LABELS[estado] || estado}</span>`;
+    }
+
+    function denormalizarEstado(estado) {
+      return estado.toUpperCase().replace(/-/g, '_');
+    }
+
+    function sexoAGenero(sexo) {
+      return sexo === 'Hembra' ? 'F' : 'M';
+    }
+
+    // RENDER TABLA PERROS
+    function renderPerros() {
+      document.getElementById('perrosTbody').innerHTML = perrosAdmin.map(p => `
+        <tr>
+          <td><code>#${String(p.id).padStart(3, '0')}</code></td>
+          <td><strong>${p.nombre}</strong></td>
+          <td class="hide-sm">${p.raza}</td>
+          <td class="hide-sm">${p.edad}</td>
+          <td>${badgeHTML(p.estado)}</td>
+          <td>
+            <div class="tbl-actions">
+              <button class="btn--tbl btn--tbl-edit"   onclick="editarPerro(${p.id})">Editar</button>
+              <button class="btn--tbl btn--tbl-delete" onclick="eliminarPerro(${p.id})">Eliminar</button>
+            </div>
+          </td>
+        </tr>`).join('');
+    }
+
+    // RENDER TABLA VISITAS
+    function renderVisitas() {
+      if (visitasAdmin.length === 0) {
+        document.getElementById('visitasTbody').innerHTML =
+          '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:2rem">No hay visitas registradas.</td></tr>';
+        return;
+      }
+      document.getElementById('visitasTbody').innerHTML = visitasAdmin.map(v => `
+        <tr>
+          <td>${v.nombre_usuario}</td>
+          <td><strong>${v.nombre_perro}</strong></td>
+          <td class="hide-sm">${formatFecha(v.fecha_cita)}</td>
+          <td class="hide-sm">${v.hora_cita}</td>
+          <td>
+            <div class="tbl-actions">
+              <button class="btn--tbl btn--tbl-cancel" onclick="cancelarVisita(${v.cita_id})">Cancelar</button>
+            </div>
+          </td>
+        </tr>`).join('');
+    }
+
+    // ACCIONES PERROS
+    function editarPerro(id) {
+      const p = perrosAdmin.find(p => p.id === id);
+      if (!p) return;
+      editandoId = id;
+      document.getElementById('dogFormTitle').textContent = `Editar: ${p.nombre}`;
+      document.getElementById('dogFormSubmit').textContent = 'Guardar cambios';
+      document.getElementById('df-nombre').value = p.nombre;
+      document.getElementById('df-raza').value = p.raza;
+      document.getElementById('df-edad').value = p.edadNum || '';
+      document.getElementById('df-sexo').value = p.sexo || '';
+      document.getElementById('df-tamano').value = p.tamano || '';
+      document.getElementById('df-estado').value = p.estado;
+      document.getElementById('df-imagen').value = p.imagen || '';
+      document.getElementById('df-historia').value = p.historia || '';
+      abrirFormulario();
+    }
+
+    async function eliminarPerro(id) {
+      const p = perrosAdmin.find(p => p.id === id);
+      if (!p || !confirm(`¿Eliminar a ${p.nombre}?`)) return;
+      try {
+        const res = await fetch(`${API_BASE}/perros/${id}`, { method: 'DELETE' });
+        if (res.ok) {
+          perrosAdmin = perrosAdmin.filter(p => p.id !== id);
+          renderPerros();
+        } else {
+          alert('Error al eliminar el perro.');
+        }
+      } catch {
+        alert('No se pudo conectar con el servidor.');
+      }
+    }
+
+    // ACCIONES VISITAS
+    async function cancelarVisita(id) {
+      if (!confirm('¿Cancelar esta visita?')) return;
+      try {
+        const res = await fetch(`${API_BASE}/citas/${id}`, { method: 'DELETE' });
+        if (res.ok) {
+          visitasAdmin = visitasAdmin.filter(v => v.cita_id !== id);
+          renderVisitas();
+        } else {
+          alert('Error al cancelar la visita.');
+        }
+      } catch {
+        alert('No se pudo conectar con el servidor.');
+      }
+    }
+
+    // FORMULARIO
+    function abrirFormulario() {
+      const form = document.getElementById('dogForm');
+      form.classList.add('is-open');
+      form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function cerrarFormulario() {
+      document.getElementById('dogForm').classList.remove('is-open');
+      document.getElementById('dogFormInner').reset();
+      editandoId = null;
+    }
+
+    document.getElementById('btnAnadirPerro').addEventListener('click', () => {
+      const form = document.getElementById('dogForm');
+      if (form.classList.contains('is-open') && editandoId === null) {
+        cerrarFormulario();
+        return;
+      }
+      editandoId = null;
+      document.getElementById('dogFormTitle').textContent = 'Añadir nuevo perro';
+      document.getElementById('dogFormSubmit').textContent = 'Guardar perro';
+      document.getElementById('dogFormInner').reset();
+      abrirFormulario();
+    });
+
+    document.getElementById('dogFormCancel').addEventListener('click', cerrarFormulario);
+
+    document.getElementById('dogFormInner').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const nombre = document.getElementById('df-nombre').value.trim();
+      const raza = document.getElementById('df-raza').value.trim();
+      const edad = document.getElementById('df-edad').value.trim();
+      const estado = document.getElementById('df-estado').value;
+
+      if (!nombre || !raza || !edad || !estado) {
+        alert('Rellena los campos obligatorios: nombre, raza, edad y estado.');
+        return;
+      }
+
+      const payload = {
+        nombre,
+        raza,
+        edad: Number(edad),
+        descripcion: document.getElementById('df-historia').value.trim(),
+        estado: denormalizarEstado(estado),
+        genero: sexoAGenero(document.getElementById('df-sexo').value),
+        imagen: document.getElementById('df-imagen').value.trim() || null
+      };
+
+      const btnSubmit = document.getElementById('dogFormSubmit');
+      btnSubmit.disabled = true;
+
+      try {
+        const url = editandoId !== null ? `${API_BASE}/perros/${editandoId}` : `${API_BASE}/perros`;
+        const method = editandoId !== null ? 'PUT' : 'POST';
+        const res = await fetch(url, {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          cerrarFormulario();
+          const data = await fetch(`${API_BASE}/perros`).then(r => r.json());
+          perrosAdmin = data.map(normalizarPerro);
+          renderPerros();
+        } else {
+          const err = await res.json();
+          alert(err.error || 'Error al guardar el perro.');
+        }
+      } catch {
+        alert('No se pudo conectar con el servidor.');
+      } finally {
+        btnSubmit.disabled = false;
+      }
+    });
+
+    // INIT
+    async function cargarCitas() {
+      try {
+        const res = await fetch(`${API_BASE}/citas`);
+        if (!res.ok) throw new Error();
+        visitasAdmin = await res.json();
+      } catch {
+        visitasAdmin = [];
+      }
+      renderVisitas();
+    }
+
+    document.addEventListener('perrosCargados', () => {
+      perrosAdmin = [...PERROS];
+      renderPerros();
+    });
+
+    cargarCitas();
+  </script>
+</body>
+
+</html>
