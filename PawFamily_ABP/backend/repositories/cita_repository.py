@@ -30,12 +30,13 @@ class CitaRepository:
             SELECT
                 c.id_cita AS cita_id, c.fecha_cita, c.hora_cita,
                 u.nombre AS nombre_usuario, u.correo AS correo_usuario,
-                p.nombre AS nombre_perro, p.raza AS raza_perro
+                p.nombre AS nombre_perro, r.nombre_raza AS raza_perro
             FROM citas c
             JOIN usuarios u ON c.id_usuario = u.id
             JOIN perros p ON c.id_perro = p.id
+            JOIN razas r ON p.id_raza = r.id_raza
             ORDER BY c.fecha_cita ASC, c.hora_cita ASC
-        """
+"""
         cursor.execute(query)
         filas = cursor.fetchall()
         columnas = [col[0] for col in cursor.description]
