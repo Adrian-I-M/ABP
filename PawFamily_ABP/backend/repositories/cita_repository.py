@@ -1,7 +1,6 @@
 from config.db import get_connection
 
 class CitaRepository:
-
     # CREATE
     @staticmethod
     def create(id_usuario, id_perro, fecha_cita, hora_cita):
@@ -26,7 +25,7 @@ class CitaRepository:
         connection = get_connection()
         if not connection:
             return []
-        cursor = connection.cursor()
+        cursor = connection.cursor(dictionary=True)
         query = """
             SELECT
                 c.id_cita AS cita_id, c.fecha_cita, c.hora_cita,
@@ -41,6 +40,10 @@ class CitaRepository:
         citas = cursor.fetchall()
         cursor.close()
         connection.close()
+        for cita in citas:
+            if hasattr(cita['hora_cita'], 'total_seconds'):
+                total = int(cita['hora_cita'].total_seconds())
+                cita['hora_cita'] = f"{total // 3600:02d}:{(total % 3600) // 60:02d}"
         return citas
 
     # UPDATE
