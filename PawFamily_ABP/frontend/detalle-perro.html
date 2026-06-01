@@ -58,7 +58,7 @@
     </div>
 
     <div class="detalle" id="detalleContainer">
-      <p style="color:var(--muted)">Cargando...</p>
+      <p class="detalle__status">Cargando...</p>
     </div>
   </main>
 
@@ -103,14 +103,14 @@
       const container = document.getElementById('detalleContainer');
 
       if (!perro) {
-        container.innerHTML = '<p style="color:var(--muted)">Perro no encontrado. <a href="index.html">Volver al inicio</a></p>';
+        container.innerHTML = '<p class="detalle__status">Perro no encontrado. <a href="index.html">Volver al inicio</a></p>';
       } else {
         document.title = `${perro.nombre} — PawFamily`;
         const adoptado = perro.estado === 'adoptado';
         container.innerHTML = `
           <img class="detalle__img" src="${perro.imagen || ''}" alt="Foto de ${perro.nombre}" />
           <div class="detalle__info">
-            <span class="dog-card__badge badge--${perro.estado}" style="position:static;align-self:flex-start">
+            <span class="dog-card__badge badge--${perro.estado} dog-card__badge--static">
               <span class="dot"></span>${ESTADO_LABELS[perro.estado] || perro.estado}
             </span>
             <h1 class="detalle__nombre">${perro.nombre}</h1>
@@ -122,7 +122,7 @@
             </dl>
             <p class="detalle__historia">${perro.historia || 'Próximamente más información sobre ' + perro.nombre + '.'}</p>
             ${adoptado
-              ? `<button class="btn btn--ghost" disabled style="cursor:default">Ya tiene familia ♥</button>`
+              ? `<button class="btn btn--ghost" disabled>Ya tiene familia ♥</button>`
               : `<a href="reserva.html?perro=${perro.id}" class="btn btn--primary">Reservar visita con ${perro.nombre}</a>`
             }
           </div>`;

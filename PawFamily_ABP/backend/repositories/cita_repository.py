@@ -38,17 +38,13 @@ class CitaRepository:
             ORDER BY c.fecha_cita ASC, c.hora_cita ASC
         """
         cursor.execute(query)
-        filas = cursor.fetchall()
-        columnas = [col[0] for col in cursor.description]
+        citas = cursor.fetchall()
         cursor.close()
         connection.close()
-        citas = []
-        for fila in filas:
-            cita = dict(zip(columnas, fila))
+        for cita in citas:
             if hasattr(cita['hora_cita'], 'total_seconds'):
                 total = int(cita['hora_cita'].total_seconds())
                 cita['hora_cita'] = f"{total // 3600:02d}:{(total % 3600) // 60:02d}"
-            citas.append(cita)
         return citas
 
     # UPDATE
