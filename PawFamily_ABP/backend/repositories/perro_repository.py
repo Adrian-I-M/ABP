@@ -9,8 +9,14 @@ class PerroRepository:
             return None
             
         cursor = connection.cursor()
-        # Obtiene todos los registros de la tabla perro
-        cursor.execute("SELECT * FROM perros ORDER BY id")
+        # Modificado: Añadimos un INNER JOIN para traernos los datos reales de la raza y tamaño
+        query = """
+            SELECT p.*, r.nombre_raza AS raza, r.tamano 
+            FROM perros p
+            INNER JOIN razas r ON p.id_raza = r.id_raza
+            ORDER BY p.id
+        """
+        cursor.execute(query)
         perros = cursor.fetchall()
         
         cursor.close()
@@ -24,8 +30,14 @@ class PerroRepository:
             return None
             
         cursor = connection.cursor()
-        # Busca un perro específico filtrando por su ID
-        cursor.execute("SELECT * FROM perros WHERE id = %s", (perro_id,))
+        # Modificado: Añadimos el mismo INNER JOIN filtrando por el ID del perro
+        query = """
+            SELECT p.*, r.nombre_raza AS raza, r.tamano 
+            FROM perros p
+            INNER JOIN razas r ON p.id_raza = r.id_raza
+            WHERE p.id = %s
+        """
+        cursor.execute(query, (perro_id,))
         perro = cursor.fetchone()
         
         cursor.close()
