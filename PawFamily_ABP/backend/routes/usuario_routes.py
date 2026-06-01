@@ -32,10 +32,8 @@ def create_user():
         correo = data.get("correo") or data.get("email") 
         contrasena = data.get("contrasena") or data.get("password")
         
-        # ELIMINADO data.get("rol"). Ahora lo fijamos nosotros a piñón fijo por seguridad:
         rol = "cliente"   
         
-        # Le seguimos pasando las 4 cosas al servicio, pero el rol lo controlas tú
         new_id = UsuarioService.create_user(nombre, correo, contrasena, rol)
         return jsonify({"mensaje": "Usuario creado", "id": new_id}), 201
         

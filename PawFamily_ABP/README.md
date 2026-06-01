@@ -8,20 +8,36 @@ El núcleo lógico de este sistema ha sido desarrollado como una API REST modula
 *   **Framework:** Flask (organizado mediante Blueprints)
 *   **Conector de Base de Datos:** PyMySQL (utilizando DictCursor para mapeo JSON)
 *   **Seguridad:** Flask-CORS (Políticas de intercambio de origen cruzado) y Python-dotenv
-*   **Testing:** Pytest (Unit & Integration) y automatización E2E[cite: 4]
+*   **Testing:** Pytest (Unit & Integration) y automatización E2E
 
 ## Arquitectura del Proyecto
 
-El código fuente está separado por carpetas para que sea más limpio y ordenado[cite: 4]:
+El código fuente está separado por carpetas para que sea más limpio y ordenado:
 
-*   **`config/`**: Guarda la configuración y la conexión con la base de datos MySQL[cite: 4].
-*   **`routes/`**: Recibe las peticiones de la web y devuelve las respuestas en JSON[cite: 4].
-*   **`services/`**: Comprueba que los datos sean correctos antes de guardarlos[cite: 4].
-*   **`repositories/`**: Se conecta directamente a la base de datos para hacer las consultas (JOINs)[cite: 4].
+*   **`config/`**: Guarda la configuración y la conexión con la base de datos MySQL.
+*   **`routes/`**: Recibe las peticiones de la web y devuelve las respuestas en JSON.
+*   **`services/`**: Comprueba que los datos sean correctos antes de guardarlos.
+*   **`repositories/`**: Se conecta directamente a la base de datos para hacer las consultas (JOINs).
+
+Endpoints de la API REST
+A continuación se enumeran los recursos y rutas expuestos por el servidor de Flask para la comunicación con el Frontend y la Base de Datos:
+
+| Módulo | Método HTTP | Endpoint | Descripción | Requiere Autenticación |
+| **Usuarios** | `POST` | `/api/usuarios/registro` | Registra una cuenta nueva asignando el rol 'cliente' por defecto. | No |
+| | `POST` | `/api/usuarios/login` | Valida las credenciales de acceso y abre la sesión. | No |
+| **Perros** | `GET` | `/api/perros` | Devuelve el catálogo completo de animales disponibles. | No |
+| | `GET` | `/api/perros/<id>` | Obtiene la ficha de detalles de un perro específico. | No |
+| | `POST` | `/api/perros` | Añade un nuevo animal al sistema (Procesa la subida de imagen con `uuid`). | **Sí (Admin)** |
+| | `PUT` | `/api/perros/<id>` | Modifica la descripción o estado de un perro. | **Sí (Admin)** |
+| | `DELETE`| `/api/perros/<id>` | Elimina de forma lógica o física un registro de la base de datos. | **Sí (Admin)** |
+| **Citas** | `POST` | `/api/citas` | Registra una nueva solicitud de visita en una fecha y hora específicas. | **Sí (Usuario)** |
+| | `GET` | `/api/citas` | Lista todas las citas cruzando datos de usuarios y perros mediante `JOIN`. | **Sí (Admin)** |
+| | `PUT` | `/api/citas/<id>` | Actualiza el estado (Aceptada, Cancelada) o modifica el horario de una cita. | **Sí (Admin)** |
+| | `DELETE`| `/api/citas/<id>` | Cancela de forma definitiva una cita programada. | **Sí (Admin)** |
 
 ## Instalación y Ejecución Local
 
-Sigue estos pasos para levantar el servidor de desarrollo en tu entorno local[cite: 4]:
+Sigue estos pasos para levantar el servidor de desarrollo en tu entorno local:
 
 ### 1. Clonar el repositorio
 ```bash
