@@ -57,7 +57,7 @@ class UsuarioRepository:
             return None
             
         cursor = connection.cursor()
-        # CORREGIDO: Busca por la columna 'correo' para el proceso de Login
+
         cursor.execute("SELECT * FROM usuarios WHERE correo = %s", (correo,))
         usuarios = cursor.fetchone()  # Devuelve el diccionario del usuario o None
         
