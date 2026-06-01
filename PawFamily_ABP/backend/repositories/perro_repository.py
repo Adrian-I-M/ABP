@@ -65,22 +65,33 @@ class PerroRepository:
         return new_id
     
     @staticmethod
-    def update(perro_id, nombre, chip, edad, descripcion, raza, estado, historial_medico, genero):
+    def update(perro_id, nombre, chip, edad, descripcion, nombre_raza, estado, historial_medico, genero):
         connection = get_connection()
         if not connection:  
             return False
         cursor = connection.cursor()
+
+        raza_bd = nombre_raza.replace(" ", "_") if nombre_raza else ""
         
-        # Ejecutamos la actualización filtrando por el ID del perro
+        query = """
+            UPDATE perros 
+            SET nombre=%s, 
+                chip=%s, 
+                edad=%s, 
+                descripcion=%s, 
+                id_raza=(SELECT id_raza FROM razas WHERE nombre_raza = %s OR nombre_raza = %s LIMIT 1), 
+                estado=%s, 
+                historial_medico=%s, 
+                genero=%s 
+            WHERE id=%s
+        """
+        
         cursor.execute(
-            """UPDATE perros 
-               SET nombre=%s, chip=%s, edad=%s, descripcion=%s, raza=%s, 
-                   estado=%s, historial_medico=%s, genero=%s 
-               WHERE id=%s""",
-            (nombre, chip, edad, descripcion, raza, estado, historial_medico, genero, perro_id)
+            query,
+            (nombre, chip, edad, descripcion, nombre_raza, raza_bd, estado, historial_medico, genero, perro_id)
         )
         connection.commit()
-        filas_afectadas = cursor.rowcount # Devuelve cuántas filas han cambiado realmente
+        filas_afectadas = cursor.rowcount
         
         cursor.close()
         connection.close()
