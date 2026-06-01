@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="es">
-
+ 
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,14 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap%22
     rel="stylesheet" />
   <link rel="icon" type="image/png" href="img/logo.png">
   <link rel="stylesheet" href="css/styles.css" />
 </head>
-
+ 
 <body>
-
+ 
   <!-- HEADER -->
   <header class="site-header">
     <a href="index.html" class="brand">
@@ -47,38 +47,23 @@
       <span></span><span></span><span></span>
     </button>
   </header>
-
+ 
   <main class="admin-page">
     <div class="admin-wrap">
-
+ 
       <!-- CABECERA -->
       <div class="admin-topbar">
         <h1 class="admin-topbar__title">Panel de administración</h1>
         <span class="admin-badge">Admin</span>
       </div>
-
-      <!-- AVISO API -->
-      <div class="api-notice" role="note">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="10" />
-          <line x1="12" y1="8" x2="12" y2="12" />
-          <line x1="12" y1="16" x2="12.01" y2="16" />
-        </svg>
-        <span>
-          <strong>Pendiente de conectar con la API:</strong> Las acciones de añadir, editar y eliminar perros,
-          y la gestión de visitas, están pendientes de integrarse con el backend Python.
-          Los cambios que hagas en esta pantalla son temporales y se perderán al recargar la página.
-        </span>
-      </div>
-
+ 
       <!-- GESTION DE PERROS -->
       <section class="admin-section">
         <div class="admin-section-header">
           <h2 class="admin-section-title">Gestión de perros</h2>
           <button class="btn btn--primary" id="btnAnadirPerro" type="button">+ Añadir perro</button>
         </div>
-
+ 
         <!-- FORMULARIO PERRO -->
         <div class="dog-form" id="dogForm" aria-label="Formulario de perro">
           <h3 class="dog-form__title" id="dogFormTitle">Añadir nuevo perro</h3>
@@ -132,7 +117,7 @@
             </div>
           </form>
         </div>
-
+ 
         <!-- TABLA PERROS -->
         <div class="admin-table-wrap">
           <table class="admin-table" aria-label="Lista de perros">
@@ -150,7 +135,7 @@
           </table>
         </div>
       </section>
-
+ 
       <!-- VISITAS PENDIENTES -->
       <section class="admin-section">
         <div class="admin-section-header">
@@ -171,10 +156,10 @@
           </table>
         </div>
       </section>
-
+ 
     </div>
   </main>
-
+ 
   <!-- FOOTER -->
   <footer class="site-footer">
     <div class="site-footer__top">
@@ -205,7 +190,7 @@
       <span>Hecho con cariño y muchos pelos en el teclado.</span>
     </div>
   </footer>
-
+ 
   <!-- SCRIPTS -->
   <script src="js/main.js"></script>
   <script>
@@ -214,18 +199,18 @@
     if (!usuarioAdmin || usuarioAdmin.rol !== 'Administrador') {
       window.location.href = 'login.html';
     }
-
+ 
     // ESTADO LOCAL
     let perrosAdmin = [];
     let visitasAdmin = [];
     let editandoId = null;
-
+ 
     const LABELS = {
       "sin-adopcion": "Sin adopción",
       "en-proceso": "En proceso",
       "adoptado": "Adoptado"
     };
-
+ 
     // HELPERS
     function formatFecha(f) {
       if (!f) return '—';
@@ -233,19 +218,19 @@
       if (isNaN(fecha)) return f;
       return fecha.toLocaleDateString('es-ES');
     }
-
+ 
     function badgeHTML(estado) {
       return `<span class="estado-badge ${estado}">${LABELS[estado] || estado}</span>`;
     }
-
+ 
     function denormalizarEstado(estado) {
       return estado.toUpperCase().replace(/-/g, '_');
     }
-
+ 
     function sexoAGenero(sexo) {
       return sexo === 'Hembra' ? 'F' : 'M';
     }
-
+ 
     // RENDER TABLA PERROS
     function renderPerros() {
       document.getElementById('perrosTbody').innerHTML = perrosAdmin.map(p => `
@@ -263,7 +248,7 @@
           </td>
         </tr>`).join('');
     }
-
+ 
     // RENDER TABLA VISITAS
     function renderVisitas() {
       if (visitasAdmin.length === 0) {
@@ -284,7 +269,7 @@
           </td>
         </tr>`).join('');
     }
-
+ 
     // ACCIONES PERROS
     function editarPerro(id) {
       const p = perrosAdmin.find(p => p.id === id);
@@ -302,7 +287,7 @@
       document.getElementById('df-historia').value = p.historia || '';
       abrirFormulario();
     }
-
+ 
     async function eliminarPerro(id) {
       const p = perrosAdmin.find(p => p.id === id);
       if (!p || !confirm(`¿Eliminar a ${p.nombre}?`)) return;
@@ -318,7 +303,7 @@
         alert('No se pudo conectar con el servidor.');
       }
     }
-
+ 
     // ACCIONES VISITAS
     async function cancelarVisita(id) {
       if (!confirm('¿Cancelar esta visita?')) return;
@@ -334,20 +319,20 @@
         alert('No se pudo conectar con el servidor.');
       }
     }
-
+ 
     // FORMULARIO
     function abrirFormulario() {
       const form = document.getElementById('dogForm');
       form.classList.add('is-open');
       form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
-
+ 
     function cerrarFormulario() {
       document.getElementById('dogForm').classList.remove('is-open');
       document.getElementById('dogFormInner').reset();
       editandoId = null;
     }
-
+ 
     document.getElementById('btnAnadirPerro').addEventListener('click', () => {
       const form = document.getElementById('dogForm');
       if (form.classList.contains('is-open') && editandoId === null) {
@@ -360,21 +345,21 @@
       document.getElementById('dogFormInner').reset();
       abrirFormulario();
     });
-
+ 
     document.getElementById('dogFormCancel').addEventListener('click', cerrarFormulario);
-
+ 
     document.getElementById('dogFormInner').addEventListener('submit', async (e) => {
       e.preventDefault();
       const nombre = document.getElementById('df-nombre').value.trim();
       const raza = document.getElementById('df-raza').value.trim();
       const edad = document.getElementById('df-edad').value.trim();
       const estado = document.getElementById('df-estado').value;
-
+ 
       if (!nombre || !raza || !edad || !estado) {
         alert('Rellena los campos obligatorios: nombre, raza, edad y estado.');
         return;
       }
-
+ 
       const payload = {
         nombre,
         raza,
@@ -384,10 +369,10 @@
         genero: sexoAGenero(document.getElementById('df-sexo').value),
         imagen: document.getElementById('df-imagen').value.trim() || null
       };
-
+ 
       const btnSubmit = document.getElementById('dogFormSubmit');
       btnSubmit.disabled = true;
-
+ 
       try {
         const url = editandoId !== null ? `${API_BASE}/perros/${editandoId}` : `${API_BASE}/perros`;
         const method = editandoId !== null ? 'PUT' : 'POST';
@@ -396,7 +381,7 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-
+ 
         if (res.ok) {
           cerrarFormulario();
           const data = await fetch(`${API_BASE}/perros`).then(r => r.json());
@@ -412,7 +397,7 @@
         btnSubmit.disabled = false;
       }
     });
-
+ 
     // INIT
     async function cargarCitas() {
       try {
@@ -424,14 +409,16 @@
       }
       renderVisitas();
     }
-
+ 
     document.addEventListener('perrosCargados', () => {
       perrosAdmin = [...PERROS];
       renderPerros();
     });
-
+ 
     cargarCitas();
   </script>
 </body>
-
+ 
 </html>
+ 
+ 
