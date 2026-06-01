@@ -66,8 +66,8 @@ class PerroService:
 
     # UPDATE
     @staticmethod
-    def update_perro(perro_id, nombre, chip, edad, descripcion, raza, estado, historial_medico, genero):
-        if not nombre or not raza:
+    def update_perro(perro_id, nombre, chip, edad, descripcion, nombre_raza, estado, historial_medico, genero):
+        if not nombre or not nombre_raza:
             raise ValueError("El nombre y la raza son obligatorios para actualizar.")
         try:
             edad_int = int(edad)
@@ -75,8 +75,22 @@ class PerroService:
             raise ValueError("La edad debe ser un número válido.")
         if edad_int < 0:
             raise ValueError("La edad no puede ser negativa.")
+            
+        # Buscamos el ID de la raza en la base de datos usando el texto
+        from config.db import get_connection
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT id_raza FROM razas WHERE nombre_raza = %s", (nombre_raza,))
+        resultado = cursor.fetchone()
+        
+        # Si no existe la raza en la tabla, le asignamos una por defecto o lanzamos error
+        id_raza = resultado['id_raza'] if resultado else 1 
+        cursor.close()
+        conn.close()
+        
+        # Le pasamos el ID numérico al repositorio 
         return PerroRepository.update(
-            perro_id, nombre, chip, edad_int, descripcion, raza, estado, historial_medico, genero
+            perro_id, nombre, chip, edad_int, descripcion, id_raza, estado, historial_medico, genero
         )
 
     # DELETE
