@@ -45,17 +45,27 @@ class PerroRepository:
         return perro
 
     @staticmethod
-    def create(nombre, chip, edad, descripcion, raza, estado, historial_medico, fecha_entrada, imagen_url, genero):
+    def create(nombre, chip, edad, descripcion, nombre_raza, estado, historial_medico, fecha_entrada, imagen_url, genero):
         connection = get_connection()
         if not connection:  
             return None
         cursor = connection.cursor()
-        # Inserta un nuevo perro en la base de datos
+
+        raza_bd = nombre_raza.replace(" ", "_") if nombre_raza else ""
+
+        query = """
+            INSERT INTO perros 
+            (nombre, chip, edad, descripcion, id_raza, estado, historial_medico, fecha_entrada, imagen, genero) 
+            VALUES (
+                %s, %s, %s, %s, 
+                (SELECT id_raza FROM razas WHERE nombre_raza = %s OR nombre_raza = %s LIMIT 1), 
+                %s, %s, %s, %s, %s
+            )
+        """
+        
         cursor.execute(
-            """INSERT INTO perros 
-            (nombre, chip, edad, descripcion, raza, estado, historial_medico, fecha_entrada, imagen, genero) 
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
-            (nombre, chip, edad, descripcion, raza, estado, historial_medico, fecha_entrada, imagen_url, genero)
+            query,
+            (nombre, chip, edad, descripcion, nombre_raza, raza_bd, estado, historial_medico, fecha_entrada, imagen_url, genero)
         )
         connection.commit()  # Confirma la inserción en MySQL
         new_id = cursor.lastrowid  # Captura el ID autogenerado
